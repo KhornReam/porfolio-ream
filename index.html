@@ -516,7 +516,7 @@
             </div>
 
             <!-- Composite Interactive Portrait Stage -->
-            <div id="portrait-frame" onclick="openLightbox('portrait')" class="relative z-10 w-64 sm:w-72 aspect-square rounded-full p-2.5 bg-gradient-to-b from-amber-500 via-orange-600 to-[#12151e] shadow-[0_15px_40px_rgba(245,158,11,0.25)] cursor-pointer group transition-all duration-500 hover:scale-105 active:scale-95" title="Click to view full photo">
+            <div id="portrait-frame" onclick="openLightbox('portrait')" class="relative z-10 w-64 sm:w-72 aspect-square rounded-full p-2.5 bg-gradient-to-b from-amber-500 via-orange-600 to-[#12151e] shadow-[0_15px_40px_rgba(245,158,11,0.25)] cursor-pointer group transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_18px_48px_rgba(245,158,11,.34)] active:scale-[.99]" title="Open Ream's photo details">
               
               <!-- Container with Real Workspace Active Background Behind Ream.png -->
               <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-[#0a0b0e] hero-real-workspace-bg">
@@ -524,36 +524,26 @@
                 <!-- Live Server Lights & Animated HUD grid behind Ream -->
                 <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px] opacity-25 animate-pulse"></div>
                 <div class="absolute top-6 left-1/2 -translate-x-1/2 w-48 h-32 bg-amber-500/20 blur-2xl rounded-full"></div>
-                <div class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-[#0a0b0e] to-transparent z-[2]"></div>
+                <div class="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-[#0a0b0e]/35 to-transparent z-[2]"></div>
                 
                 <!-- Ream's Cutout / Portrait with dynamic glow -->
                 <img id="ream-portrait-img" 
                      src="./images/Ream.png" 
                      alt="Ream - Software Engineer" 
-                     class="relative z-[3] w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110 filter contrast-110 brightness-105 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)]" 
+                     class="relative z-[3] w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.02] drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)]" 
                      onerror="this.src='https://placehold.co/400x400/181d2a/f59e0b?text=Ream+Khorn';">
                 
-                <!-- Scanline and Activity Overlay -->
-                <div class="absolute inset-0 scanline-overlay pointer-events-none opacity-40 z-[4]"></div>
-
                 <!-- Live Floating HUD Tag -->
                 <div class="absolute top-4 right-4 z-[5] px-2 py-0.5 rounded-full bg-black/60 border border-emerald-500/40 text-[9px] font-mono text-emerald-400 flex items-center gap-1 backdrop-blur-sm">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
                 </div>
 
-                <!-- Hover Inspection Layer -->
-                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-[6] flex flex-col items-center justify-center text-white backdrop-blur-[2px]">
-                  <div class="w-12 h-12 rounded-full bg-amber-500/90 flex items-center justify-center text-black text-lg mb-1 shadow-lg shadow-amber-500/50">
-                    <i class="fa-solid fa-expand"></i>
-                  </div>
-                  <span class="text-xs font-mono text-amber-300 font-semibold tracking-wider">CLICK TO INSPECT</span>
-                </div>
               </div>
 
-              <!-- Verified Badge -->
-              <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-500 text-black font-mono text-[10px] font-black tracking-widest uppercase shadow-lg shadow-amber-500/30 flex items-center gap-1 z-30">
-                <i class="fa-solid fa-circle-check"></i> VERIFIED PHOTO
-              </div>
+              <!-- Always-visible photo details action -->
+              <button type="button" aria-label="Open photo details" onclick="event.stopPropagation(); openLightbox('portrait')" class="absolute -bottom-10 left-1/2 -translate-x-1/2 z-30 inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-amber-200/40 bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-2 font-mono text-[10px] font-black tracking-wider text-[#111318] shadow-lg shadow-amber-500/30 transition-all hover:-translate-y-0.5 hover:shadow-amber-500/50 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300/60">
+                <i class="fa-solid fa-circle-check"></i> VIEW DETAILS <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+              </button>
             </div>
 
           </div>
@@ -1421,9 +1411,9 @@
   </main>
 
   <!-- LIGHTBOX MODAL -->
-  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+  <div id="photo-lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="photo-modal-title" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
     <div class="relative max-w-3xl w-full amber-card bg-[#0e111a] border border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-      <button onclick="closeLightbox()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-amber-500 hover:text-black text-white flex items-center justify-center transition-colors" aria-label="Close Lightbox">
+      <button id="photo-modal-close" onclick="closeLightbox()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-amber-500 hover:text-black text-white flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300/60" aria-label="Close Lightbox">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
@@ -1441,7 +1431,7 @@
           <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-[10px] uppercase font-bold">
             <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Verified Identity
           </div>
-          <h3 class="text-2xl font-black text-white mt-2">Ream Khorn</h3>
+          <h3 id="photo-modal-title" class="text-2xl font-black text-white mt-2">Ream Khorn</h3>
           <p class="text-xs font-mono text-amber-400">Software Engineer & Aspiring Computer Scientist</p>
 
           <div class="mt-4 space-y-2 text-xs text-slate-300">
@@ -1647,18 +1637,39 @@
 
     // Lightbox
     const lightboxModal = document.getElementById('photo-lightbox-modal');
+    const photoModalClose = document.getElementById('photo-modal-close');
+    let lightboxReturnFocus = null;
     function openLightbox(target) {
+      if (lightboxModal.classList.contains('hidden')) lightboxReturnFocus = document.activeElement;
       playBeep(900, 'sine', 0.1);
       lightboxModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => photoModalClose.focus());
     }
     function closeLightbox() {
       playBeep(450, 'sine', 0.08);
       lightboxModal.classList.add('hidden');
       document.body.style.overflow = 'auto';
+      if (lightboxReturnFocus && typeof lightboxReturnFocus.focus === 'function') lightboxReturnFocus.focus();
+      lightboxReturnFocus = null;
     }
     lightboxModal.addEventListener('click', (e) => {
       if (e.target === lightboxModal) closeLightbox();
+    });
+    lightboxModal.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(lightboxModal.querySelectorAll('button:not([disabled]), a[href]'));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     // Modern Robot Companion Logic & Dynamic Eye Tracking
