@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ream | Software Engineer & Aspiring Computer Scientist</title>
+  <link rel="shortcut icon" href="./images/Ream.png" type="image/x-icon">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+              accent: '#ff6a00',
+              deep: '#0a0b0e',
+              card: '#12151e',
+              cardHover: '#181d2a',
+              border: 'rgba(245, 158, 11, 0.22)'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          },
+          animation: {
+            'spin-slow': 'spin 24s linear infinite',
+            'spin-reverse': 'spinReverse 30s linear infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'float': 'floating 4s ease-in-out infinite',
+            'ring-pulse': 'ringPulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          keyframes: {
+            spinReverse: {
+              '0%': { transform: 'rotate(360deg)' },
+              '100%': { transform: 'rotate(0deg)' }
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', filter: 'drop-shadow(0 0 18px rgba(245, 158, 11, 0.35))' },
+              '50%': { opacity: '0.85', filter: 'drop-shadow(0 0 32px rgba(255, 106, 0, 0.65))' }
+            },
+            floating: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            ringPulse: {
+              '0%, 100%': { transform: 'scale(1)', opacity: '0.4' },
+              '50%': { transform: 'scale(1.03)', opacity: '0.8' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital@1&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    body {
+      background-color: #0a0b0e;
+      color: #f3f4f6;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glow-spot {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .amber-card {
+      background: linear-gradient(180deg, rgba(22, 26, 38, 0.82) 0%, rgba(14, 17, 25, 0.88) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .amber-card:hover {
+      border-color: rgba(245, 158, 11, 0.55);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 30px -10px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Active Background on Ream's Photo */
+    .hero-interactive-scene {
+      perspective: 1000px;
+      transition: transform 0.15s ease-out;
+    }
+    .hero-real-workspace-bg {
+      background: radial-gradient(circle at 50% 40%, rgba(245, 158, 11, 0.22) 0%, rgba(15, 23, 42, 0.85) 60%, #07090e 100%),
+                  repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245, 158, 11, 0.03) 3px, transparent 4px);
+    }
+    .scanline-overlay {
+      background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4) 51%);
+      background-size: 100% 4px;
+    }
+
+    /* Modern Bot Styles */
+    .lumibot-card {
+      background: radial-gradient(ellipse at 18% 50%, rgba(245,158,11,.12), transparent 42%), linear-gradient(135deg, #151923 0%, #10131b 55%, #0d1017 100%);
+      border: 1px solid rgba(148,163,184,.16);
+      box-shadow: 0 24px 70px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.04);
+    }
+    .lumibot-stage {
+      background: radial-gradient(ellipse at 50% 55%, rgba(245,158,11,.14), transparent 55%), rgba(7,10,16,.58);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 1px rgba(255,255,255,.04);
+    }
+    #bot-eye-l, #bot-eye-r { 
+      transform-box: fill-box; 
+      transform-origin: center; 
+      transition: cx .12s ease-out, cy .12s ease-out; 
+    }
+    #robot-svg.bot-blink #bot-eye-l, #robot-svg.bot-blink #bot-eye-r { 
+      animation: modernBlink .18s ease-in-out; 
+    }
+    #robot-svg.bot-react { animation: botReact .6s ease; }
+    #robot-wrapper.bot-thinking { 
+      border-color: rgba(245,158,11,.45); 
+      box-shadow: inset 0 0 45px rgba(245,158,11,.1), 0 0 35px rgba(245,158,11,.12); 
+    }
+
+    @keyframes modernBlink {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.08); }
+    }
+    @keyframes botReact { 
+      0%, 100% { transform: translateY(0) rotate(0); } 
+      30% { transform: translateY(-10px) rotate(-3deg); } 
+      65% { transform: translateY(-4px) rotate(2deg); } 
+    }
+    .home-robot-runway {
+      position: absolute;
+      z-index: 20;
+      left: 50%;
+      bottom: -34px;
+      width: 100vw;
+      height: 62px;
+      transform: translateX(-50%);
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .home-robot-runway::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,.3) 12%, rgba(148,163,184,.16) 88%, transparent);
+    }
+    .home-robot-runner {
+      position: absolute;
+      bottom: 11px;
+      left: -70px;
+      width: 58px;
+      height: 54px;
+      animation: lumiRunAcross 13s linear infinite;
+      filter: drop-shadow(0 5px 11px rgba(245,158,11,.28));
+    }
+    .home-robot-runner .runner-arm,
+    .home-robot-runner .runner-leg {
+      transform-box: fill-box;
+      transform-origin: top center;
+      animation: runnerStride .28s ease-in-out infinite alternate;
+    }
+    .home-robot-runner .runner-arm:nth-of-type(even),
+    .home-robot-runner .runner-leg:nth-of-type(even) { animation-delay: .14s; }
+    @keyframes lumiRunAcross {
+      from { left: -70px; }
+      to { left: calc(100% + 12px); }
+    }
+    @keyframes runnerStride {
+      from { transform: rotate(-24deg); }
+      to { transform: rotate(24deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .home-robot-runner, .home-robot-runner .runner-arm, .home-robot-runner .runner-leg { animation: none; }
+      .home-robot-runner { left: calc(50% - 29px); }
+    }
+
+    .signature-font { font-family: 'Caveat', cursive; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: #0a0b0e; }
+    ::-webkit-scrollbar-thumb { background: #252b3b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.22;
+    }
+  </style>
+</head>
+<body class="selection:bg-amber-500 selection:text-black relative">
+
+  <!-- Interactive Matrix Canvas Background -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- Ambient Light Effects -->
+  <div class="glow-spot w-[600px] h-[600px] bg-amber-600/15 top-[-100px] right-[-100px]"></div>
+  <div class="glow-spot w-[500px] h-[500px] bg-orange-600/10 top-[600px] left-[-150px]"></div>
+  <div class="glow-spot w-[500px] h-[500px] bg-amber-500/10 bottom-[-100px] right-1/4"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 w-full bg-[#0a0b0e]/85 backdrop-blur-xl border-b border-white/5 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 p-[2px] shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-[#0a0b0e] rounded-[10px] flex items-center justify-center">
+            <span class="text-amber-400 font-mono font-black text-sm tracking-tighter">R//M</span>
+          </div>
+        </div>
+        <div>
+          <span class="text-white font-black text-lg tracking-wider flex items-center gap-1">
+            REAM <span class="text-amber-500 font-mono font-bold text-xs">.DEV</span>
+          </span>
+          <span class="text-[10px] text-slate-400 block font-mono -mt-1 tracking-tight">SOFTWARE ENGINEER & CS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <nav class="hidden md:flex items-center space-x-1 font-mono text-xs text-slate-300">
+        <a href="#home" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">HOME</a>
+        <a href="#about" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">ABOUT</a>
+        <a href="#services" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">SERVICES</a>
+        <a href="#skills" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">SKILLS</a>
+        <a href="#projects" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">PROJECTS</a>
+        <a href="#journey" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">CS JOURNEY</a>
+        <a href="#contact" class="px-3.5 py-2 rounded-lg hover:text-amber-400 transition-colors">CONTACT</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <button id="audio-toggle-btn" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-slate-300 flex items-center gap-1.5 transition-colors" title="Toggle Sound Effects">
+          <i class="fa-solid fa-volume-high text-amber-400" id="audio-icon"></i>
+          <span class="hidden sm:inline font-mono text-[11px]">SFX</span>
+        </button>
+
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-bold text-xs tracking-wider uppercase shadow-lg shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all">
+          <span>LET'S TALK</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+
+        <button id="mobile-menu-toggle" class="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-drawer" class="md:hidden hidden px-4 pt-2 pb-6 bg-[#0a0b0e]/95 border-b border-white/10 space-y-2 font-mono text-xs">
+      <a href="#home" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">HOME</a>
+      <a href="#about" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">ABOUT</a>
+      <a href="#services" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">SERVICES</a>
+      <a href="#skills" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">SKILLS</a>
+      <a href="#projects" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">PROJECTS</a>
+      <a href="#journey" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">CS JOURNEY</a>
+      <a href="#contact" class="block px-4 py-2.5 rounded-lg text-slate-300 hover:text-amber-400 hover:bg-white/5">CONTACT</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-28 pt-8 pb-24">
+
+    <!-- HERO SECTION WITH INTERACTIVE REAL-BACKDROP ON REAM.PNG -->
+    <section id="home" class="min-h-[85vh] flex flex-col justify-center relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+            <span class="w-2.5 h-0.5 bg-amber-400"></span>
+            <span>HELLO, I'M</span>
+          </div>
+
+          <div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-none">
+              Ream <span class="text-amber-500">Khorn</span>
+            </h1>
+            <div class="mt-3 text-xl sm:text-2xl font-mono text-slate-300 flex items-center gap-2 min-h-[40px]">
+              <span id="hero-typewriter" class="text-white font-semibold border-r-2 border-amber-400 pr-1"></span>
+            </div>
+          </div>
+
+          <p class="text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl">
+            I build exceptional, resilient digital experiences with modern software architectures and clean code. Passionate about scalable cloud systems, database engineering, and turning complex computational ideas into reality on my quest to become a Computer Scientist.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#contact" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-extrabold text-xs tracking-wider uppercase shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
+              <span>HIRE ME</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+
+            <a href="#projects" class="px-7 py-3.5 rounded-full bg-[#12151e]/80 hover:bg-[#181d2a] text-white border border-white/10 hover:border-amber-500/40 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2">
+              <span>VIEW MY WORK</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs text-amber-400"></i>
+            </a>
+
+            <a href="#lumi-assistant" class="px-6 py-3.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/25 hover:border-amber-400/50 font-semibold text-xs tracking-wider uppercase transition-all flex items-center gap-2">
+              <i class="fa-solid fa-robot"></i>
+              <span>MEET LUMIBOT</span>
+            </a>
+          </div>
+
+          <div class="pt-4 flex flex-col sm:flex-row sm:items-center gap-6 text-xs text-slate-400 border-t border-white/5">
+            <div class="flex items-center gap-2 font-mono">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-slate-300 font-semibold">AVAILABLE FOR FREELANCE & CS COLLAB</span>
+            </div>
+
+            <div class="flex items-center space-x-3 text-sm">
+              <a href="https://github.com" target="_blank" rel="noreferrer" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-amber-500 hover:text-black flex items-center justify-center transition-all text-slate-300" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-amber-500 hover:text-black flex items-center justify-center transition-all text-slate-300" title="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+              <a href="mailto:ream.khorn.se@example.com" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-amber-500 hover:text-black flex items-center justify-center transition-all text-slate-300" title="Email Ream">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+              <a href="#terminal-section" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-amber-500 hover:text-black flex items-center justify-center transition-all text-slate-300" title="Open Interactive CLI">
+                <i class="fa-solid fa-terminal"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- REAM'S REAL PHOTO WITH ACTIVE REALISTIC BACKDROP & PARALLAX -->
+        <div class="lg:col-span-5 flex justify-center items-center relative">
+          <div id="hero-scene-box" class="hero-interactive-scene relative w-[340px] sm:w-[420px] aspect-square flex items-center justify-center">
+            
+            <!-- Dynamic Background Radar & Ambient Ring Layers -->
+            <div class="absolute inset-0 rounded-full border border-amber-500/30 animate-ring-pulse shadow-[0_0_30px_rgba(245,158,11,0.2)]"></div>
+            <div class="absolute inset-4 rounded-full border-2 border-dashed border-amber-500/30 animate-spin-slow"></div>
+            <div class="absolute inset-10 rounded-full border border-dotted border-orange-500/25 animate-spin-reverse"></div>
+
+            <!-- Floating Tech Badges -->
+            <div class="absolute -top-2 right-8 z-30 px-3 py-1.5 rounded-xl bg-[#12151e]/90 border border-amber-500/40 text-xs font-mono text-amber-300 shadow-xl flex items-center gap-1.5 animate-float">
+              <i class="fa-brands fa-react text-cyan-400"></i>
+              <span>React.js</span>
+            </div>
+
+            <div class="absolute top-20 -left-4 z-30 px-3 py-1.5 rounded-xl bg-[#12151e]/90 border border-emerald-500/40 text-xs font-mono text-emerald-300 shadow-xl flex items-center gap-1.5" style="animation: floating 4.5s ease-in-out infinite 1s;">
+              <i class="fa-brands fa-node-js text-emerald-400"></i>
+              <span>Node.js</span>
+            </div>
+
+            <div class="absolute bottom-16 -left-3 z-30 px-3 py-1.5 rounded-xl bg-[#12151e]/90 border border-blue-500/40 text-xs font-mono text-blue-300 shadow-xl flex items-center gap-1.5" style="animation: floating 5s ease-in-out infinite 0.5s;">
+              <i class="fa-solid fa-code text-blue-400"></i>
+              <span>TypeScript</span>
+            </div>
+
+            <div class="absolute -bottom-2 right-10 z-30 px-3 py-1.5 rounded-xl bg-[#12151e]/90 border border-amber-500/40 text-xs font-mono text-amber-400 shadow-xl flex items-center gap-1.5" style="animation: floating 4.2s ease-in-out infinite 1.5s;">
+              <i class="fa-solid fa-database text-amber-400"></i>
+              <span>SQL Server</span>
+            </div>
+
+            <!-- Composite Interactive Portrait Stage -->
+            <div id="portrait-frame" onclick="openLightbox('portrait')" class="relative z-10 w-64 sm:w-72 aspect-square rounded-full p-2.5 bg-gradient-to-b from-amber-500 via-orange-600 to-[#12151e] shadow-[0_15px_40px_rgba(245,158,11,0.25)] cursor-pointer group transition-all duration-500 hover:scale-105 active:scale-95" title="Click to view full photo">
+              
+              <!-- Container with Real Workspace Active Background Behind Ream.png -->
+              <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-[#0a0b0e] hero-real-workspace-bg">
+                
+                <!-- Live Server Lights & Animated HUD grid behind Ream -->
+                <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px] opacity-25 animate-pulse"></div>
+                <div class="absolute top-6 left-1/2 -translate-x-1/2 w-48 h-32 bg-amber-500/20 blur-2xl rounded-full"></div>
+                <div class="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-[#0a0b0e] to-transparent z-[2]"></div>
+                
+                <!-- Ream's Cutout / Portrait with dynamic glow -->
+                <img id="ream-portrait-img" 
+                     src="./images/Ream.png" 
+                     alt="Ream - Software Engineer" 
+                     class="relative z-[3] w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110 filter contrast-110 brightness-105 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)]" 
+                     onerror="this.src='https://placehold.co/400x400/181d2a/f59e0b?text=Ream+Khorn';">
+                
+                <!-- Scanline and Activity Overlay -->
+                <div class="absolute inset-0 scanline-overlay pointer-events-none opacity-40 z-[4]"></div>
+
+                <!-- Live Floating HUD Tag -->
+                <div class="absolute top-4 right-4 z-[5] px-2 py-0.5 rounded-full bg-black/60 border border-emerald-500/40 text-[9px] font-mono text-emerald-400 flex items-center gap-1 backdrop-blur-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> ONLINE
+                </div>
+
+                <!-- Hover Inspection Layer -->
+                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-[6] flex flex-col items-center justify-center text-white backdrop-blur-[2px]">
+                  <div class="w-12 h-12 rounded-full bg-amber-500/90 flex items-center justify-center text-black text-lg mb-1 shadow-lg shadow-amber-500/50">
+                    <i class="fa-solid fa-expand"></i>
+                  </div>
+                  <span class="text-xs font-mono text-amber-300 font-semibold tracking-wider">CLICK TO INSPECT</span>
+                </div>
+              </div>
+
+              <!-- Verified Badge -->
+              <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-amber-500 text-black font-mono text-[10px] font-black tracking-widest uppercase shadow-lg shadow-amber-500/30 flex items-center gap-1 z-30">
+                <i class="fa-solid fa-circle-check"></i> VERIFIED PHOTO
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="home-robot-runway" aria-label="LumiBot running across the homepage" role="img">
+        <svg class="home-robot-runner" viewBox="0 0 80 74" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M38 19V10" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="38" cy="7" r="4" fill="#fb923c"/>
+          <rect x="19" y="17" width="39" height="28" rx="10" fill="#202838" stroke="#f59e0b" stroke-width="2"/>
+          <rect x="24" y="22" width="29" height="17" rx="6" fill="#080b12" stroke="#475569"/>
+          <circle cx="33" cy="30" r="3" fill="#38bdf8"/>
+          <circle cx="45" cy="30" r="3" fill="#38bdf8"/>
+          <path d="M34 36Q39 39 44 36" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M29 45L27 51H49L47 45" fill="#30394b" stroke="#f59e0b" stroke-width="1.5"/>
+          <g class="runner-arm"><path d="M25 47L17 54L20 60" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/><circle cx="20" cy="61" r="2.5" fill="#fbbf24"/></g>
+          <g class="runner-arm"><path d="M51 47L59 54L56 60" stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/><circle cx="56" cy="61" r="2.5" fill="#fbbf24"/></g>
+          <circle cx="38" cy="56" r="3" fill="#fb923c"/>
+          <g class="runner-leg"><path d="M32 56L28 65L22 68" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 68H17" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/></g>
+          <g class="runner-leg"><path d="M44 56L48 65L54 68" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M54 68H59" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/></g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- SECTION 6: REDESIGNED MODERN AUTONOMOUS MECH COMPANION -->
+    <section id="lumi-assistant" class="lumibot-card p-5 sm:p-8 lg:p-10 rounded-[2rem] relative overflow-hidden scroll-mt-24">
+      <div class="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative">
+        
+        <!-- Modern Robot Interactive Stage -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-center">
+          <div class="lumibot-stage relative w-full max-w-sm min-h-[380px] rounded-[1.85rem] flex items-center justify-center cursor-pointer select-none" id="robot-wrapper" onclick="cycleBotQuote()" title="Click to interact with LumiBot-X">
+            <span class="absolute top-4 left-5 text-[10px] tracking-[.25em] uppercase font-mono text-amber-400/80">LUMI-MECH · MK-IV</span>
+            <span class="absolute top-5 right-5 flex items-center gap-2 text-[10px] font-mono text-emerald-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="bot-status">NEURAL ONLINE</span>
+            </span>
+
+            <!-- Speech Bubble -->
+            <div id="robot-speech-bubble" class="absolute bottom-4 left-4 right-4 bg-[#0a0b0e]/95 border border-amber-500/40 p-3 rounded-xl text-center text-xs font-mono text-amber-200 shadow-xl transition-all z-20 backdrop-blur-md">
+              <span id="robot-speech-text">Systems calibrated. I am LumiBot-X, Ream's computational co-pilot!</span>
+              <a id="bot-navigation-link" href="#" class="hidden mt-2 inline-flex items-center gap-1 text-amber-300 hover:text-amber-100 underline underline-offset-4" onclick="event.stopPropagation()">Explore section <span aria-hidden="true">&rarr;</span></a>
+            </div>
+
+            <!-- UPGRADED MODERN CYBER MECH SVG -->
+            <svg id="robot-svg" width="250" height="280" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-float -mt-6">
+              <defs>
+                <linearGradient id="chassisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2a3347"/>
+                  <stop offset="50%" stop-color="#141a27"/>
+                  <stop offset="100%" stop-color="#0b0e16"/>
+                </linearGradient>
+                <linearGradient id="carbonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#3b4459"/>
+                  <stop offset="100%" stop-color="#161b26"/>
+                </linearGradient>
+                <linearGradient id="goldPlate" x1="0%" y1="0%" x2="100%" y2="50%">
+                  <stop offset="0%" stop-color="#fbbf24"/>
+                  <stop offset="100%" stop-color="#d97706"/>
+                </linearGradient>
+                <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f59e0b" flood-opacity="0.8"/>
+                </filter>
+                <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#38bdf8" flood-opacity="0.9"/>
+                </filter>
+              </defs>
+
+              <!-- Mech Antenna & Signal Array -->
+              <path d="M140 38 L140 14" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="140" cy="12" r="5" fill="#f59e0b" filter="url(#neonGlow)"/>
+              <path d="M125 24 L140 18 L155 24" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1.5" fill="none"/>
+
+              <!-- Outer Ears / Sensor Pods -->
+              <rect x="66" y="58" width="10" height="32" rx="4" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+              <rect x="204" y="58" width="10" height="32" rx="4" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+
+              <!-- Sleek Angular Helmet Base -->
+              <polygon points="80,48 200,48 214,88 196,126 84,126 66,88" fill="url(#chassisGrad)" stroke="#38445d" stroke-width="2"/>
+              
+              <!-- Carbon Brow Plates -->
+              <polygon points="90,52 190,52 202,74 78,74" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1"/>
+
+              <!-- Cybernetic Visor Screen -->
+              <path d="M84 76 L196 76 L188 108 L92 108 Z" fill="#06080d" stroke="#f59e0b" stroke-width="1.8" filter="url(#neonGlow)"/>
+
+              <!-- Dynamic Interactive Eyes with Live Aim Tracking -->
+              <g id="bot-left-eye">
+                <rect x="100" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+                <circle id="bot-eye-l" cx="114" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
+              </g>
+
+              <g id="bot-right-eye">
+                <rect x="152" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+                <circle id="bot-eye-r" cx="166" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
+              </g>
+
+              <!-- Jaw Audio Visualizer Vent -->
+              <g id="bot-mouth-vent">
+                <line x1="120" y1="116" x2="160" y2="116" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                <line x1="126" y1="120" x2="154" y2="120" stroke="#f59e0b" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="round"/>
+              </g>
+
+              <!-- Reinforced Mech Neck -->
+              <rect x="122" y="128" width="36" height="14" rx="3" fill="#1e2536" stroke="#475569" stroke-width="1"/>
+              <line x1="128" y1="132" x2="152" y2="132" stroke="#f59e0b" stroke-width="2"/>
+              <line x1="128" y1="137" x2="152" y2="137" stroke="#f59e0b" stroke-width="2"/>
+
+              <!-- High-Tech Shoulder Pauldrons -->
+              <g id="bot-shoulder-left">
+                <polygon points="56,152 86,142 94,178 64,188" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+                <circle cx="75" cy="165" r="4" fill="#f59e0b"/>
+              </g>
+              <g id="bot-shoulder-right">
+                <polygon points="224,152 194,142 186,178 216,188" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+                <circle cx="205" cy="165" r="4" fill="#f59e0b"/>
+              </g>
+
+              <!-- Torso Chassis Structure -->
+              <polygon points="90,144 190,144 176,236 104,236" fill="url(#chassisGrad)" stroke="#38445d" stroke-width="2"/>
+              
+              <!-- Cyber Armor Chest Inset -->
+              <polygon points="102,152 178,152 166,204 114,204" fill="url(#carbonGrad)" stroke="#1e293b" stroke-width="1"/>
+
+              <!-- Modern Quantum Arc Core Reactor -->
+              <circle cx="140" cy="184" r="19" fill="#090d16" stroke="#f59e0b" stroke-width="2.5"/>
+              <circle cx="140" cy="184" r="14" fill="#1e1808" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="4 2" class="animate-spin-slow"/>
+              <circle id="bot-reactor" cx="140" cy="184" r="8" fill="#f59e0b" filter="url(#neonGlow)" class="animate-pulse"/>
+
+              <!-- Lower Hydraulic Abdominal Pistons -->
+              <line x1="124" y1="210" x2="124" y2="230" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+              <line x1="156" y1="210" x2="156" y2="230" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
+
+              <!-- Articulated Arms -->
+              <g id="bot-arm-left">
+                <path d="M72 186 L54 220 L68 248" stroke="url(#carbonGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="54" cy="220" r="5" fill="#f59e0b"/>
+                <circle cx="68" cy="248" r="7" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+              </g>
+              <g id="bot-arm-right">
+                <path d="M208 186 L226 220 L212 248" stroke="url(#carbonGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="226" cy="220" r="5" fill="#f59e0b"/>
+                <circle cx="212" cy="248" r="7" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+              </g>
+
+              <!-- Hip Base Chassis & Thrusters -->
+              <polygon points="106,238 174,238 162,260 118,260" fill="url(#carbonGrad)" stroke="#475569" stroke-width="1.5"/>
+              <circle cx="130" cy="264" r="3" fill="#38bdf8" filter="url(#cyanGlow)"/>
+              <circle cx="150" cy="264" r="3" fill="#38bdf8" filter="url(#cyanGlow)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Robot Explainer & Interactive Controls -->
+        <div class="lg:col-span-7 space-y-5 lg:pl-2">
+          <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-amber-400/[.08] border border-amber-400/20 font-mono text-[10px] sm:text-xs tracking-[.12em] text-amber-300">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>NEXT-GEN AI MECH ACTIVE</span>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Meet <span class="text-amber-400">LumiBot-X</span></h3>
+            <p class="text-base sm:text-lg font-semibold text-slate-200">Ream's modern autonomous assistant</p>
+            <p class="max-w-2xl text-slate-400 text-sm sm:text-base leading-relaxed">
+              Equipped with real-time neural eye tracking, telemetry diagnostics, and instant insight into Ream's software architecture and algorithmic roadmap.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2.5 pt-1">
+            <button onclick="botSay('greeting')" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-mono transition-all">
+              👋 Greet Ream
+            </button>
+            <button onclick="botSay('vision')" class="px-4 py-2 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/30 text-xs font-mono transition-all">
+              🚀 CS Vision
+            </button>
+            <button onclick="botSay('fact')" class="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-mono transition-all">
+              💡 Algorithm Fact
+            </button>
+          </div>
+
+          <form id="bot-chat-form" class="flex flex-col sm:flex-row gap-2 max-w-2xl" aria-label="Ask LumiBot a question">
+            <label for="bot-chat-input" class="sr-only">Ask LumiBot a question</label>
+            <input id="bot-chat-input" type="text" maxlength="180" autocomplete="off" placeholder="Ask about Ream's projects, skills, or journey…" class="min-w-0 flex-1 rounded-xl bg-[#0a0b0e]/80 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/10">
+            <button type="submit" class="rounded-xl px-5 py-3 bg-amber-400 text-[#15100a] text-sm font-bold hover:bg-amber-300 transition-colors">Ask LumiBot <span aria-hidden="true">↗</span></button>
+          </form>
+          <p class="text-[11px] text-slate-500 font-mono">Try asking about Ream's projects or Dijkstra's algorithm.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="space-y-12 scroll-mt-24">
+      <div>
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+          <span>ABOUT ME</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-6">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+            Building Digital Solutions <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">That Make a Real Difference</span>
+          </h2>
+
+          <p class="text-slate-300 text-base leading-relaxed">
+            I am a dedicated Software Engineering practitioner in Cambodia with deep curiosity in Computer Science, operating systems, and high-performance application design. With hands-on foundations across full-stack architectures and relational data systems, I specialize in engineering clean, scalable code that turns complicated algorithmic requirements into elegant products.
+          </p>
+
+          <p class="text-slate-400 text-sm leading-relaxed">
+            My educational focus bridges theoretical computation with real-world infrastructure: from relational SQL schemas and Docker containers to modern reactive frontends using Vue and React. My long-term roadmap is dedicated to distributed system research and computational theory.
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+            <div class="amber-card p-4 rounded-2xl text-center">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">3+</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1 uppercase">Years Experience</div>
+            </div>
+
+            <div class="amber-card p-4 rounded-2xl text-center">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">15+</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1 uppercase">Projects Completed</div>
+            </div>
+
+            <div class="amber-card p-4 rounded-2xl text-center">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">10+</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1 uppercase">Tech Stacks</div>
+            </div>
+
+            <div class="amber-card p-4 rounded-2xl text-center">
+              <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">100%</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1 uppercase">Dedication Rate</div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="downloadResume()" class="px-6 py-3 rounded-full bg-white/5 hover:bg-amber-500 hover:text-black border border-white/10 hover:border-amber-400 text-xs font-mono font-semibold transition-all flex items-center gap-2">
+              <i class="fa-solid fa-download text-amber-400"></i>
+              <span>DOWNLOAD RESUME / SPEC</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 space-y-6">
+          <div class="amber-card p-6 rounded-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-white/5">
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                <i class="fa-regular fa-user text-amber-400"></i> Name:
+              </span>
+              <span class="text-xs font-bold text-white font-mono">Ream Khorn</span>
+            </div>
+
+            <div class="flex items-center justify-between pb-3 border-b border-white/5">
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                <i class="fa-regular fa-envelope text-amber-400"></i> Email:
+              </span>
+              <span class="text-xs font-mono text-amber-400 hover:underline cursor-pointer">ream.khorn.se@example.com</span>
+            </div>
+
+            <div class="flex items-center justify-between pb-3 border-b border-white/5">
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-amber-400"></i> Location:
+              </span>
+              <span class="text-xs font-bold text-white font-mono">Phnom Penh, Cambodia</span>
+            </div>
+
+            <div class="flex items-center justify-between pb-3 border-b border-white/5">
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                <i class="fa-regular fa-circle-check text-emerald-400"></i> Availability:
+              </span>
+              <span class="text-xs font-mono text-emerald-400 font-bold">Open for Tech Roles / CS Research</span>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-xs font-mono text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-amber-400"></i> Major:
+              </span>
+              <span class="text-xs font-mono text-slate-200">Software Engineering & Computer Science</span>
+            </div>
+          </div>
+
+          <div class="amber-card p-6 rounded-2xl flex items-center justify-between">
+            <div>
+              <span class="text-xs font-mono text-slate-400">Authenticated Signature</span>
+              <div class="text-3xl signature-font text-amber-400 font-bold mt-1">Ream Khorn</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <i class="fa-solid fa-stamp text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="space-y-8 scroll-mt-24">
+      <div class="text-center max-w-xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+          <span>WHAT I DO</span>
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">My Services & Specializations</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="amber-card p-6 rounded-2xl flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-6 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Web Development</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Custom, resilient web systems built with modern technologies, high security standards, and responsive user interfaces.
+            </p>
+          </div>
+          <a href="#projects" class="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400 hover:text-amber-300 font-bold mt-6 group-hover:translate-x-1 transition-transform">
+            <span>LEARN MORE</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-6 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-display"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Frontend Architecture</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Interactive client-side interfaces using React, Vue, Next.js, TypeScript, and modern Tailwind CSS frameworks.
+            </p>
+          </div>
+          <a href="#projects" class="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400 hover:text-amber-300 font-bold mt-6 group-hover:translate-x-1 transition-transform">
+            <span>LEARN MORE</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-6 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-server"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Backend & APIs</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              High-throughput RESTful APIs and server-side systems with Laravel, Python, Node.js, and background job queues.
+            </p>
+          </div>
+          <a href="#projects" class="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400 hover:text-amber-300 font-bold mt-6 group-hover:translate-x-1 transition-transform">
+            <span>LEARN MORE</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-6 group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">Database Engineering</h3>
+            <p class="text-xs text-slate-400 mt-2.5 leading-relaxed">
+              Database schema normalization, ACID compliance, query tuning, and indexing in SQL Server, PostgreSQL, and Redis.
+            </p>
+          </div>
+          <a href="#projects" class="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400 hover:text-amber-300 font-bold mt-6 group-hover:translate-x-1 transition-transform">
+            <span>LEARN MORE</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="space-y-8 scroll-mt-24">
+      <div>
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+          <span>MY EXPERTISE</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Skills & Technologies</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-6 space-y-5">
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">JavaScript / TypeScript</span>
+              <span class="text-amber-400 font-bold">95%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 95%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">React / Next.js / Vue.js</span>
+              <span class="text-amber-400 font-bold">92%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 92%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">PHP 8.x / Laravel</span>
+              <span class="text-amber-400 font-bold">90%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 90%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">SQL Server / PostgreSQL / Redis</span>
+              <span class="text-amber-400 font-bold">88%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 88%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">HTML / CSS / Tailwind CSS</span>
+              <span class="text-amber-400 font-bold">96%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 96%;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-mono mb-1.5">
+              <span class="text-white font-medium">Docker / Virtualization / Linux</span>
+              <span class="text-amber-400 font-bold">82%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-[#181d2a] overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full" style="width: 82%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 grid grid-cols-3 sm:grid-cols-4 gap-3 font-mono text-center">
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-react text-2xl text-cyan-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">React</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-vuejs text-2xl text-emerald-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Vue.js</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-node-js text-2xl text-emerald-500 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Node.js</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-solid fa-code text-2xl text-blue-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">TypeScript</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-laravel text-2xl text-red-500 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Laravel</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-python text-2xl text-yellow-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Python</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-solid fa-database text-2xl text-amber-500 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">SQL Server</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-docker text-2xl text-blue-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Docker</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-git-alt text-2xl text-orange-500 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Git</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-brands fa-linux text-2xl text-yellow-300 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Linux</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-solid fa-brain text-2xl text-purple-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">DSA / Algo</span>
+          </div>
+
+          <div class="amber-card p-4 rounded-xl flex flex-col items-center justify-center gap-2 group hover:border-amber-400 transition-all">
+            <i class="fa-solid fa-bolt text-2xl text-amber-400 group-hover:scale-125 transition-transform"></i>
+            <span class="text-[11px] text-slate-300 font-semibold">Tailwind</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section id="projects" class="space-y-8 scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+            <span class="w-2.5 h-0.5 bg-amber-400"></span>
+            <span>FEATURED PROJECTS</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Some of My Recent Work</h2>
+        </div>
+
+        <a href="#contact" class="inline-flex items-center gap-2 font-mono text-xs text-amber-400 hover:text-amber-300 font-semibold">
+          <span>VIEW ALL ON GITHUB</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="amber-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+          <div>
+            <div class="h-48 bg-[#0a0b0e] p-4 border-b border-white/5 relative overflow-hidden flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-white/10 pb-2">
+                <span class="text-amber-400 font-bold">Analytics & Ledger Portal</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> ACTIVE</span>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-2 my-2 font-mono text-[10px]">
+                <div class="bg-white/5 p-2 rounded">
+                  <span class="text-slate-400">TRANS / SEC</span>
+                  <div class="text-amber-400 font-bold text-sm">1,480 ops</div>
+                </div>
+                <div class="bg-white/5 p-2 rounded">
+                  <span class="text-slate-400">UPTIME</span>
+                  <div class="text-emerald-400 font-bold text-sm">99.98%</div>
+                </div>
+              </div>
+
+              <div class="text-[10px] font-mono text-slate-500">
+                SQL Server Normalized Schema • Laravel Backend
+              </div>
+            </div>
+
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">NexusCore ERP & Banking</h3>
+              <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                Full-stack enterprise application with automated transaction auditing, multi-tenant authentication, and reactive status monitors.
+              </p>
+              
+              <div class="flex flex-wrap gap-1.5 mt-4 font-mono text-[10px]">
+                <span class="px-2 py-0.5 rounded bg-white/5 text-amber-300">Vue 3</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Laravel</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">SQL Server</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Tailwind</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2">
+            <button onclick="openProjectModal('nexus')" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-amber-500 hover:text-black text-amber-400 border border-white/10 hover:border-amber-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye"></i>
+              <span>INSPECT ARCHITECTURE</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="amber-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+          <div>
+            <div class="h-48 bg-[#0a0b0e] p-4 border-b border-white/5 relative overflow-hidden flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-white/10 pb-2">
+                <span class="text-amber-400 font-bold">Cloud Cluster Node Monitor</span>
+                <span class="text-slate-400">VMware ESXi</span>
+              </div>
+              
+              <div class="space-y-1.5 font-mono text-[10px]">
+                <div class="flex justify-between text-slate-300">
+                  <span>Pod Allocation:</span>
+                  <span class="text-emerald-400">32/32 Healthy</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>Heartbeat Latency:</span>
+                  <span class="text-amber-400">12ms average</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>Automated Failover:</span>
+                  <span class="text-blue-400">ENABLED</span>
+                </div>
+              </div>
+
+              <div class="text-[10px] font-mono text-slate-500">
+                Docker Containers • Daemon Sync in Go
+              </div>
+            </div>
+
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">AetherGuard Cloud Monitor</h3>
+              <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                Automated cluster health monitor with automated failover alerting, virtual machine metrics, and telemetry broadcasting.
+              </p>
+              
+              <div class="flex flex-wrap gap-1.5 mt-4 font-mono text-[10px]">
+                <span class="px-2 py-0.5 rounded bg-white/5 text-amber-300">Docker</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Node.js</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Go</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Prometheus</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2">
+            <button onclick="openProjectModal('aether')" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-amber-500 hover:text-black text-amber-400 border border-white/10 hover:border-amber-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye"></i>
+              <span>INSPECT ARCHITECTURE</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="amber-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+          <div>
+            <div class="h-48 bg-[#0a0b0e] p-4 border-b border-white/5 relative overflow-hidden flex flex-col justify-between">
+              <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 border-b border-white/10 pb-2">
+                <span class="text-amber-400 font-bold">Graph Neural Solver</span>
+                <span class="text-purple-400">O(V + E log V)</span>
+              </div>
+              
+              <div class="p-2 bg-white/5 rounded font-mono text-[10px] space-y-1">
+                <div class="text-emerald-400">&gt; Dijkstra Path Solved: 0.88ms</div>
+                <div class="text-amber-400">&gt; Heuristic Accuracy: 99.4%</div>
+                <div class="text-slate-400">&gt; Node Count: 14,000 vertices</div>
+              </div>
+
+              <div class="text-[10px] font-mono text-slate-500">
+                NumPy Computations • Python & WebGL UI
+              </div>
+            </div>
+
+            <div class="p-6">
+              <h3 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">SynapseGraph Path Optimizer</h3>
+              <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                Algorithmic graph routing platform demonstrating real-time shortest-path traversal across dense network topologies.
+              </p>
+              
+              <div class="flex flex-wrap gap-1.5 mt-4 font-mono text-[10px]">
+                <span class="px-2 py-0.5 rounded bg-white/5 text-amber-300">Python</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">TypeScript</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">NumPy</span>
+                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Canvas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-6 pb-6 pt-2">
+            <button onclick="openProjectModal('synapse')" class="w-full py-2.5 rounded-xl bg-white/5 hover:bg-amber-500 hover:text-black text-amber-400 border border-white/10 hover:border-amber-400 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye"></i>
+              <span>INSPECT ARCHITECTURE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP SECTION -->
+    <section id="journey" class="space-y-8 scroll-mt-24">
+      <div>
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+          <span>MY JOURNEY</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Roadmap to Computer Science</h2>
+        <p class="text-slate-400 text-sm mt-1">From hands-on IT diagnostics to software engineering and scalable systems research.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="amber-card p-6 rounded-2xl relative">
+          <div class="w-10 h-10 rounded-full bg-amber-500 text-black font-black font-mono flex items-center justify-center text-sm mb-4">
+            01
+          </div>
+          <span class="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wider block">Stage 1: IT Core</span>
+          <h4 class="text-base font-bold text-white mt-1">Foundations & Networks</h4>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Hardware troubleshooting, operating systems administration, local area network routing, and foundational scripting.
+          </p>
+          <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-check"></i> Accomplished
+          </div>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl relative">
+          <div class="w-10 h-10 rounded-full bg-amber-500 text-black font-black font-mono flex items-center justify-center text-sm mb-4">
+            02
+          </div>
+          <span class="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wider block">Stage 2: Full-Stack</span>
+          <h4 class="text-base font-bold text-white mt-1">Software Engineering</h4>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Enterprise database normalization, MVC architectural patterns, REST API endpoints with Laravel, and Vue/React interfaces.
+          </p>
+          <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-emerald-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-check"></i> Mastered
+          </div>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl border-2 border-amber-500/80 relative shadow-lg shadow-amber-500/10">
+          <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-amber-500 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+            ACTIVE FOCUS
+          </div>
+          <div class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-black font-black font-mono flex items-center justify-center text-sm mb-4">
+            03
+          </div>
+          <span class="text-[10px] font-mono text-amber-300 font-bold uppercase tracking-wider block">Stage 3: Systems</span>
+          <h4 class="text-base font-bold text-white mt-1">Cloud & Concurrency</h4>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Docker containers, asynchronous messaging queues, virtual machine orchestration, and system reliability tuning.
+          </p>
+          <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-amber-400 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Actively Building
+          </div>
+        </div>
+
+        <div class="amber-card p-6 rounded-2xl relative">
+          <div class="w-10 h-10 rounded-full bg-orange-600 text-white font-black font-mono flex items-center justify-center text-sm mb-4">
+            04
+          </div>
+          <span class="text-[10px] font-mono text-orange-400 font-bold uppercase tracking-wider block">Stage 4: Vision</span>
+          <h4 class="text-base font-bold text-white mt-1">Computer Scientist</h4>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Advanced computational complexity, distributed consensus protocols, machine intelligence research, and high-performance algorithms.
+          </p>
+          <div class="mt-4 pt-3 border-t border-white/5 text-[11px] font-mono text-orange-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-rocket"></i> 2026 Horizon
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT & TERMINAL SECTION -->
+    <section id="contact" class="space-y-8 scroll-mt-24 pb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 font-mono text-xs font-semibold text-amber-400 tracking-wider">
+          <span class="w-2.5 h-0.5 bg-amber-400"></span>
+          <span>GET IN TOUCH</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-1">Let's Build Something Amazing Together</h2>
+        <p class="text-slate-400 text-sm mt-1">Have a project in mind or an engineering opportunity? Transmit an inquiry or execute commands in the live shell.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-6 amber-card p-6 sm:p-8 rounded-2xl space-y-4">
+          <form id="contact-form" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1" for="user-name">Your Name</label>
+                <input type="text" id="user-name" required placeholder="Elena Rostova" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0b0e] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 font-mono placeholder:text-slate-600 transition-colors" />
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1" for="user-email">Your Email</label>
+                <input type="email" id="user-email" required placeholder="elena@company.com" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0b0e] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 font-mono placeholder:text-slate-600 transition-colors" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1" for="project-type">Project Type</label>
+                <select id="project-type" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0b0e] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 font-mono transition-colors">
+                  <option value="Full-Stack Web App">Full-Stack Web Application</option>
+                  <option value="Software Engineer Hiring">Hiring / Full-Time Role</option>
+                  <option value="Database & Systems">Database / Cloud Systems</option>
+                  <option value="CS Research">Computer Science Collaboration</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-mono text-slate-300 mb-1" for="budget-range">Budget / Timeline</label>
+                <select id="budget-range" class="w-full px-4 py-2.5 rounded-xl bg-[#0a0b0e] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 font-mono transition-colors">
+                  <option value="Flexible">$1,000 - $3,000 / Standard</option>
+                  <option value="Enterprise">$3,000 - $10,000+ / Enterprise</option>
+                  <option value="Contract">Hourly Contract</option>
+                  <option value="Direct Hire">Permanent Position</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-slate-300 mb-1" for="user-msg">Tell me about your project...</label>
+              <textarea id="user-msg" rows="4" required placeholder="Describe your technical specifications, goals, or schedule..." class="w-full px-4 py-2.5 rounded-xl bg-[#0a0b0e] border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 placeholder:text-slate-600 transition-colors resize-none"></textarea>
+            </div>
+
+            <button type="submit" id="btn-submit-contact" class="w-full py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-bold text-xs tracking-wider uppercase shadow-xl shadow-amber-500/20 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+              <span>SEND MESSAGE</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </form>
+
+          <div id="contact-success-box" class="hidden p-3 rounded-xl bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs font-mono text-center">
+            ✓ Message transmitted! Thank you, Ream will respond within 24 hours.
+          </div>
+        </div>
+
+        <div id="terminal-section" class="lg:col-span-6 amber-card rounded-2xl overflow-hidden shadow-2xl">
+          <div class="bg-[#0a0b0e] px-4 py-3 border-b border-white/10 flex items-center justify-between font-mono text-xs text-slate-400">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+              <span class="ml-2 text-slate-300">ream@cs-kernel: ~ (zsh)</span>
+            </div>
+            <span class="text-amber-400 text-[10px]">v2026.04</span>
+          </div>
+
+          <div id="terminal-screen" class="p-4 bg-[#0a0b0e]/95 font-mono text-xs text-slate-300 h-80 overflow-y-auto space-y-2">
+            <div class="text-amber-400">Ream Interactive Cloud Shell [Build 2026.1]</div>
+            <div class="text-slate-500">Try <span class="text-amber-400 font-bold">'help'</span>, <span class="text-amber-400 font-bold">'whoami'</span>, or <span class="text-amber-400 font-bold">'ls'</span> to explore.</div>
+            <div class="border-b border-white/5 my-1"></div>
+            <div id="terminal-log" class="space-y-1.5"></div>
+          </div>
+
+          <div class="bg-[#12151e] p-3 border-t border-white/10 flex items-center gap-2">
+            <span class="text-amber-400 font-mono text-xs">&gt;</span>
+            <input type="text" id="terminal-user-input" placeholder="try 'help', 'whoami', 'ls', 'cat projects.txt'..." class="flex-1 bg-transparent text-xs font-mono text-amber-300 focus:outline-none" autocomplete="off" />
+            <button onclick="executeTerminalCommand()" class="px-3 py-1 rounded bg-white/5 hover:bg-white/10 text-xs font-mono text-slate-300">
+              Run
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+    <div class="relative max-w-3xl w-full amber-card bg-[#0e111a] border border-amber-500/50 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 hover:bg-amber-500 hover:text-black text-white flex items-center justify-center transition-colors" aria-label="Close Lightbox">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="md:w-1/2 p-6 flex items-center justify-center bg-black/40">
+        <div class="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden border-2 border-amber-500/40 shadow-2xl hero-real-workspace-bg">
+          <img src="./images/Ream.png" alt="Ream - Full View" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/500x500/181d2a/f59e0b?text=Ream+Khorn';">
+          <div class="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-black/80 font-mono text-[10px] text-amber-400 border border-amber-500/30">
+            RAW HI-RES VERIFIED
+          </div>
+        </div>
+      </div>
+
+      <div class="md:w-1/2 p-6 flex flex-col justify-between space-y-4">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-[10px] uppercase font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span> Verified Identity
+          </div>
+          <h3 class="text-2xl font-black text-white mt-2">Ream Khorn</h3>
+          <p class="text-xs font-mono text-amber-400">Software Engineer & Aspiring Computer Scientist</p>
+
+          <div class="mt-4 space-y-2 text-xs text-slate-300">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-code text-amber-400 w-4"></i>
+              <span>Full-Stack Enterprise & Systems Architecture</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-location-dot text-amber-400 w-4"></i>
+              <span>Phnom Penh, Cambodia</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-amber-400 w-4"></i>
+              <span>Specialization: Distributed Systems & Core DSA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3 pt-4 border-t border-white/10 font-mono text-xs">
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Status:</span>
+            <span class="text-emerald-400">Available for 2026 Roles</span>
+          </div>
+          <div class="flex items-center justify-between text-slate-400">
+            <span>Security Hash:</span>
+            <span class="text-amber-300">SHA256: 7f8a9e01...c9</span>
+          </div>
+
+          <div class="flex gap-2 pt-2">
+            <button onclick="closeLightbox()" class="flex-1 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-center">
+              Close Preview
+            </button>
+            <a href="./images/Ream.png" target="_blank" download="Ream_Khorn_Portrait.png" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-center">
+              Download Photo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT SPEC MODAL -->
+  <div id="project-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="amber-card bg-[#0e111a] border border-amber-500/50 max-w-xl w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span id="modal-tag" class="text-[10px] font-mono text-amber-400 uppercase tracking-wider">PROJECT SPECIFICATION</span>
+          <h3 id="modal-title" class="text-xl font-bold text-white mt-1">Project Name</h3>
+        </div>
+        <button onclick="closeProjectModal()" class="text-slate-400 hover:text-white p-2" aria-label="Close">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <p id="modal-description" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+
+      <div>
+        <h4 class="text-xs font-mono text-amber-400 uppercase tracking-wider mb-2">Technical Implementations</h4>
+        <div id="modal-highlights" class="space-y-1.5 text-xs text-slate-300"></div>
+      </div>
+
+      <div class="pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs">
+        <span class="text-slate-500">Status: Verified Artifact</span>
+        <button onclick="closeProjectModal()" class="px-4 py-2 rounded-xl bg-amber-500 text-black font-bold">
+          Close Spec
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 bg-[#07080a] py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-500 font-mono">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-amber-500 text-black font-black flex items-center justify-center text-xs">
+          R
+        </div>
+        <div>
+          <span class="text-white font-bold text-sm block">REAM KHORN</span>
+          <span>© 2026 All rights reserved. Built with precision & modern web architecture.</span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-6 text-slate-400">
+        <a href="#home" class="hover:text-amber-400 transition-colors">Home</a>
+        <a href="#about" class="hover:text-amber-400 transition-colors">About</a>
+        <a href="#services" class="hover:text-amber-400 transition-colors">Services</a>
+        <a href="#projects" class="hover:text-amber-400 transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-amber-400 transition-colors">Contact</a>
+      </div>
+
+      <div class="text-amber-400 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Phnom Penh, Cambodia</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Web Audio System
+    let audioEnabled = true;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playBeep(freq = 640, type = 'sine', duration = 0.08, gainVal = 0.04) {
+      if (!audioEnabled) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    const audioToggleBtn = document.getElementById('audio-toggle-btn');
+    const audioIcon = document.getElementById('audio-icon');
+    audioToggleBtn.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      if (audioEnabled) {
+        initAudio();
+        playBeep(880, 'sine', 0.1);
+        audioIcon.className = "fa-solid fa-volume-high text-amber-400";
+      } else {
+        audioIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+      }
+    });
+
+    // Hero Typewriter
+    const heroRoles = [
+      "Full-Stack Developer",
+      "Software Engineer",
+      "Aspiring Computer Scientist",
+      "Database & Systems Specialist"
+    ];
+    let heroRoleIdx = 0;
+    let heroCharIdx = 0;
+    let isDeletingHero = false;
+    const heroTypewriterEl = document.getElementById('hero-typewriter');
+
+    function runHeroTypewriter() {
+      const current = heroRoles[heroRoleIdx];
+      if (isDeletingHero) {
+        heroTypewriterEl.textContent = current.substring(0, heroCharIdx - 1);
+        heroCharIdx--;
+      } else {
+        heroTypewriterEl.textContent = current.substring(0, heroCharIdx + 1);
+        heroCharIdx++;
+      }
+
+      let speed = isDeletingHero ? 45 : 85;
+
+      if (!isDeletingHero && heroCharIdx === current.length) {
+        speed = 2000;
+        isDeletingHero = true;
+      } else if (isDeletingHero && heroCharIdx === 0) {
+        isDeletingHero = false;
+        heroRoleIdx = (heroRoleIdx + 1) % heroRoles.length;
+        speed = 400;
+      }
+
+      setTimeout(runHeroTypewriter, speed);
+    }
+
+    // Lightbox
+    const lightboxModal = document.getElementById('photo-lightbox-modal');
+    function openLightbox(target) {
+      playBeep(900, 'sine', 0.1);
+      lightboxModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      playBeep(450, 'sine', 0.08);
+      lightboxModal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeLightbox();
+    });
+
+    // Modern Robot Companion Logic & Dynamic Eye Tracking
+    const eyeL = document.getElementById('bot-eye-l');
+    const eyeR = document.getElementById('bot-eye-r');
+    const botWrapper = document.getElementById('robot-wrapper');
+    const botSpeechText = document.getElementById('robot-speech-text');
+    const botNavigationLink = document.getElementById('bot-navigation-link');
+    const botStatus = document.getElementById('bot-status');
+    const botSvg = document.getElementById('robot-svg');
+    const botChatForm = document.getElementById('bot-chat-form');
+    const botChatInput = document.getElementById('bot-chat-input');
+    const heroSceneBox = document.getElementById('hero-scene-box');
+    let botActivityTimer;
+    let lastBotMove = Date.now();
+
+    function animateBot(status = 'NEURAL ACTIVE') {
+      if (!botSvg || !botWrapper) return;
+      botStatus.textContent = status;
+      botWrapper.classList.add('bot-thinking');
+      botSvg.classList.remove('bot-react');
+      void botSvg.getBoundingClientRect();
+      botSvg.classList.add('bot-react');
+      clearTimeout(botActivityTimer);
+      botActivityTimer = setTimeout(() => {
+        botWrapper.classList.remove('bot-thinking');
+        botStatus.textContent = 'NEURAL ONLINE';
+      }, 1800);
+    }
+
+    function blinkBot() {
+      if (!botSvg) return;
+      botSvg.classList.remove('bot-blink');
+      void botSvg.getBoundingClientRect();
+      botSvg.classList.add('bot-blink');
+    }
+
+    setInterval(() => {
+      blinkBot();
+      if (Date.now() - lastBotMove > 4000 && eyeL && eyeR) {
+        const glanceX = (Math.random() - .5) * 6;
+        const glanceY = (Math.random() - .5) * 4;
+        eyeL.setAttribute('cx', (114 + glanceX).toFixed(2));
+        eyeL.setAttribute('cy', (92 + glanceY).toFixed(2));
+        eyeR.setAttribute('cx', (166 + glanceX).toFixed(2));
+        eyeR.setAttribute('cy', (92 + glanceY).toFixed(2));
+      }
+    }, 3000);
+
+    const botSayings = [
+      "Diagnostic check passed: 0 warnings, system latency 8ms.",
+      "Ream's priority: Scalable cloud architectures and database engineering.",
+      "Hover over Ream's photo to engage live neural telemetry!",
+      "Try running 'whoami' or 'fortune' in the CLI terminal below.",
+      "Did you know? Dijkstra completed his shortest path algorithm in 20 minutes."
+    ];
+    let sayIdx = 0;
+
+    function cycleBotQuote() {
+      sayIdx = (sayIdx + 1) % botSayings.length;
+      botSpeechText.textContent = botSayings[sayIdx];
+      animateBot('TRANSMITTING');
+      playBeep(1150, 'sine', 0.08);
+    }
+
+    function botSay(type) {
+      if (botNavigationLink) botNavigationLink.classList.add('hidden');
+      animateBot(type === 'fact' ? 'COMPUTING' : 'TRANSMITTING');
+      playBeep(1200, 'sawtooth', 0.1);
+      if (type === 'greeting') {
+        botSpeechText.textContent = "Ream welcomes you: 'Thanks for stopping by my workspace! Let's build together.'";
+      } else if (type === 'vision') {
+        botSpeechText.textContent = "Vision: Bridging enterprise software engineering with advanced distributed systems research.";
+      } else if (type === 'fact') {
+        botSpeechText.textContent = "Algorithm Fact: Hash tables ensure amortized O(1) query complexity under proper load factors.";
+      }
+    }
+
+    function botRespond(question) {
+      const q = question.toLowerCase();
+      let answer;
+      let destination = '';
+      if (/\b(hi|hello|hey|greet)\b/.test(q)) {
+        answer = "Greetings! I'm LumiBot-X. How can I assist you with Ream's projects or skills?";
+      } else if (/\b(project|built|portfolio|work|app)\b/.test(q)) {
+        answer = "Featured projects: NexusCore ERP, AetherGuard Cloud Monitor, and SynapseGraph Path Optimizer.";
+        destination = '#projects';
+      } else if (/\b(skill|technolog|stack|python|typescript|sql)\b/.test(q)) {
+        answer = "Ream's core toolkit: TypeScript, React, Vue, Laravel, Python, SQL Server, Docker, and Linux.";
+        destination = '#skills';
+      } else if (/\b(journey|roadmap|study|education)\b/.test(q)) {
+        answer = "Ream's path spans 4 stages: IT Infrastructure, Full-Stack SE, Cloud Systems, and Computer Science.";
+        destination = '#journey';
+      } else if (/\b(dijkstra|algorithm|complexity)\b/.test(q)) {
+        answer = "Dijkstra solves shortest paths using priority queues with O((V + E) log V) complexity.";
+        destination = '#projects';
+      } else if (/\b(contact|email|hire)\b/.test(q)) {
+        answer = "You can dispatch a message via the form below or email ream.khorn.se@example.com.";
+        destination = '#contact';
+      } else if (/\b(about|professional|experience|who is ream)\b/.test(q)) {
+        answer = "Ream is a software engineering practitioner in Cambodia focused on scalable software, cloud systems, and computer science.";
+        destination = '#about';
+      } else {
+        answer = "Query logged. Ask about Ream's projects, technical skills, roadmap, or CS concepts.";
+      }
+      botSpeechText.textContent = answer;
+      if (botNavigationLink) {
+        if (destination) {
+          botNavigationLink.href = destination;
+          botNavigationLink.textContent = `Explore ${destination.slice(1)} section →`;
+          botNavigationLink.classList.remove('hidden');
+        } else {
+          botNavigationLink.classList.add('hidden');
+        }
+      }
+      animateBot('COMPUTING');
+      playBeep(1200, 'sawtooth', 0.1);
+    }
+
+    if (botChatForm && botChatInput) {
+      botChatForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const question = botChatInput.value.trim();
+        if (!question) {
+          botChatInput.focus();
+          return;
+        }
+        botRespond(question);
+        botChatInput.value = '';
+      });
+    }
+
+    // Cursor tracking for bot optics & interactive 3D hero card parallax
+    window.addEventListener('mousemove', (e) => {
+      lastBotMove = Date.now();
+
+      // 1. Robot Eye Tracking
+      if (botWrapper && eyeL && eyeR) {
+        const rect = botWrapper.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
+        const dist = Math.min(6, Math.hypot(e.clientX - cx, e.clientY - cy) / 60);
+        const ox = Math.cos(angle) * dist;
+        const oy = Math.sin(angle) * dist;
+
+        eyeL.setAttribute('cx', (114 + ox).toFixed(2));
+        eyeL.setAttribute('cy', (92 + oy).toFixed(2));
+        eyeR.setAttribute('cx', (166 + ox).toFixed(2));
+        eyeR.setAttribute('cy', (92 + oy).toFixed(2));
+      }
+
+      // 2. Active Image Background Parallax Tracking
+      if (heroSceneBox) {
+        const hRect = heroSceneBox.getBoundingClientRect();
+        const hx = (e.clientX - (hRect.left + hRect.width / 2)) / (hRect.width / 2);
+        const hy = (e.clientY - (hRect.top + hRect.height / 2)) / (hRect.height / 2);
+        if (Math.abs(hx) < 2 && Math.abs(hy) < 2) {
+          heroSceneBox.style.transform = `rotateY(${hx * 10}deg) rotateX(${-hy * 10}deg)`;
+        }
+      }
+    });
+
+    // Interactive Matrix Particle Background
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let cw = 0, ch = 0;
+
+    function resizeCanvas() {
+      cw = canvas.width = window.innerWidth;
+      ch = canvas.height = window.innerHeight;
+      initParticles();
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.floor((cw * ch) / 24000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * cw,
+          y: Math.random() * ch,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          r: Math.random() * 1.8 + 0.8
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, cw, ch);
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = cw;
+        if (p.x > cw) p.x = 0;
+        if (p.y < 0) p.y = ch;
+        if (p.y > ch) p.y = 0;
+
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.6)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (dist < 90) {
+            ctx.strokeStyle = `rgba(245, 158, 11, ${0.12 * (1 - dist / 90)})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    // CLI Shell
+    const termInput = document.getElementById('terminal-user-input');
+    const termLog = document.getElementById('terminal-log');
+    const termScreen = document.getElementById('terminal-screen');
+
+    const cliResponses = {
+      help: () => `Available Shell Commands:
+- <span class="text-amber-400">whoami</span>      : Show current user
+- <span class="text-amber-400">pwd</span>         : Print working directory
+- <span class="text-amber-400">ls</span>          : List portfolio artifacts
+- <span class="text-amber-400">date</span>        : Show system time
+- <span class="text-amber-400">neofetch</span>    : System kernel metrics
+- <span class="text-amber-400">about</span>       : Biography & research vision
+- <span class="text-amber-400">skills</span>      : Technical stack proficiencies
+- <span class="text-amber-400">projects</span>    : Active deployed software
+- <span class="text-amber-400">journey</span>     : 4-stage CS roadmap
+- <span class="text-amber-400">contact</span>     : Communication endpoints
+- <span class="text-amber-400">cat &lt;file&gt;</span>     : Read virtual text files
+- <span class="text-amber-400">fortune</span>     : Display CS principles
+- <span class="text-amber-400">clear</span>       : Clear buffer`,
+
+      whoami: () => `guest@cs-kernel — authenticated portfolio observer`,
+      pwd: () => `/home/ream/portfolio/core`,
+      ls: () => `about.txt   skills.txt   projects.txt   roadmap.txt   contact.txt`,
+      date: () => new Date().toLocaleString(),
+      neofetch: () => `ream@cs-kernel
+----------------
+OS: CyberCore OS 2026.04
+Shell: zsh-modern-v4
+Status: Online & Available for Hire`,
+      "cat about.txt": () => cliResponses.about(),
+      "cat skills.txt": () => cliResponses.skills(),
+      "cat projects.txt": () => cliResponses.projects(),
+      "cat roadmap.txt": () => cliResponses.journey(),
+      "cat contact.txt": () => cliResponses.contact(),
+
+      about: () => `NAME     : Ream Khorn
+ROLE     : Software Engineer & Aspiring Computer Scientist
+FOCUS    : Distributed Systems, Scalable Cloud APIs, High-Performance SQL
+LOCATION : Phnom Penh, Cambodia`,
+
+      skills: () => `CORE STACK:
+- Frontend: React.js, Vue.js, TypeScript, Tailwind CSS
+- Backend: PHP 8.x (Laravel), Python (FastAPI/NumPy), Node.js
+- Databases: SQL Server, PostgreSQL, Redis
+- Infrastructure: Docker, VMware, Linux Administration`,
+
+      projects: () => `PROJECT ARTIFACTS:
+1. NexusCore ERP & Banking Portal (Vue 3 + Laravel)
+2. AetherGuard Cloud Node Monitor (Go + Docker)
+3. SynapseGraph Neural Path Optimizer (Python + TypeScript)`,
+
+      journey: () => `ROADMAP PROGRESSION:
+[01] Hardware & IT Core -> [02] Full-Stack Engineering -> [03] Cloud Systems -> [04] Computer Scientist`,
+
+      contact: () => `CONTACT DETAILS:
+Email: ream.khorn.se@example.com
+Location: Phnom Penh, Cambodia`,
+
+      fortune: () => {
+        const fortunes = [
+          'Programs must be written for people to read, and only incidentally for machines to execute. — Harold Abelson',
+          'First, solve the problem. Then, write the code. — John Johnson',
+          'Simplicity is prerequisite for reliability. — Edsger W. Dijkstra'
+        ];
+        return fortunes[Math.floor(Math.random() * fortunes.length)];
+      }
+    };
+
+    function executeTerminalCommand() {
+      const cmd = termInput.value.trim().toLowerCase();
+      if (!cmd) return;
+
+      playBeep(700, 'sine', 0.04);
+      const entry = document.createElement('div');
+      entry.textContent = `> ${cmd}`;
+      entry.className = 'text-amber-400';
+      termLog.appendChild(entry);
+
+      if (cmd === 'clear') {
+        termLog.innerHTML = '';
+      } else if (cliResponses[cmd]) {
+        const out = document.createElement('div');
+        out.className = 'text-slate-300 whitespace-pre-wrap pl-2 border-l border-amber-500/30';
+        out.innerHTML = cliResponses[cmd]();
+        termLog.appendChild(out);
+      } else {
+        const err = document.createElement('div');
+        err.className = 'text-red-400 text-xs';
+        err.textContent = `zsh: command not found: '${cmd}'. Type 'help' for instructions.`;
+        termLog.appendChild(err);
+      }
+
+      termInput.value = '';
+      termScreen.scrollTop = termScreen.scrollHeight;
+    }
+
+    termInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') executeTerminalCommand();
+    });
+
+    // Contact Form
+    const contactForm = document.getElementById('contact-form');
+    const contactSuccessBox = document.getElementById('contact-success-box');
+    const btnSubmitContact = document.getElementById('btn-submit-contact');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      playBeep(920, 'sine', 0.1);
+      btnSubmitContact.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>SENDING DISPATCH...</span>`;
+      btnSubmitContact.disabled = true;
+
+      setTimeout(() => {
+        btnSubmitContact.innerHTML = `<i class="fa-solid fa-check"></i> <span>SENT SUCCESSFULLY</span>`;
+        contactSuccessBox.classList.remove('hidden');
+        contactForm.reset();
+
+        setTimeout(() => {
+          btnSubmitContact.innerHTML = `<span>SEND MESSAGE</span> <i class="fa-solid fa-arrow-right text-xs"></i>`;
+          btnSubmitContact.disabled = false;
+        }, 4000);
+      }, 900);
+    });
+
+    // Project Modal Data
+    const projectSpecs = {
+      nexus: {
+        title: "NexusCore ERP & Banking Portal",
+        tag: "FULL-STACK / SECURE TRANSACTIONS",
+        description: "Engineered an enterprise resource management platform supporting concurrent financial operations, dual-token authorization, and automated transaction reconciliation.",
+        highlights: [
+          "Micro-segmented RBAC with JWT authorization",
+          "Normalized SQL Server schemas minimizing join latency",
+          "Vue 3 reactive UI dashboard with sub-30ms response",
+          "Background audit workers processing 1,480 operations/sec"
+        ]
+      },
+      aether: {
+        title: "AetherGuard Cloud Node Monitor",
+        tag: "SYSTEMS & CLOUD INFRASTRUCTURE",
+        description: "Hybrid cloud container orchestrator monitoring virtual machine health across VMware clusters with automated failover alerting and metrics telemetry.",
+        highlights: [
+          "Heartbeat telemetry ping daemon written in lightweight Go",
+          "Automated rollbacks on deployment threshold breach",
+          "Prometheus metrics aggregator with interactive alerts",
+          "Lightweight memory footprint under 28MB"
+        ]
+      },
+      synapse: {
+        title: "SynapseGraph Path Optimizer",
+        tag: "AI & COMPUTATIONAL ALGORITHMS",
+        description: "Comparative algorithmic solver analyzing Dijkstra, A*, and heuristic graph models for shortest-path routing on 14,000+ vertex networks.",
+        highlights: [
+          "Optimized matrix multiplication routines in NumPy",
+          "Sub-millisecond convergence time on large topologies",
+          "Interactive WebGL/Canvas visual wave propagation",
+          "Asymptotic complexity bounded at O(V + E log V)"
+        ]
+      }
+    };
+
+    function openProjectModal(key) {
+      const data = projectSpecs[key];
+      if (!data) return;
+      playBeep(850, 'sine', 0.08);
+
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-tag').textContent = data.tag;
+      document.getElementById('modal-description').textContent = data.description;
+      
+      const highlightsEl = document.getElementById('modal-highlights');
+      highlightsEl.innerHTML = data.highlights
+        .map(h => `<div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-amber-400 text-[10px]"></i><span>${h}</span></div>`)
+        .join('');
+
+      document.getElementById('project-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      playBeep(450, 'sine', 0.06);
+      document.getElementById('project-modal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.getElementById('project-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'project-modal') closeProjectModal();
+    });
+
+    // Mobile Menu Toggle
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const mobileDrawer = document.getElementById('mobile-nav-drawer');
+    mobileToggle.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('hidden');
+    });
+
+    // Simulated Resume Download
+    function downloadResume() {
+      playBeep(1000, 'sine', 0.08);
+      const doc = `================================================
+REAM KHORŃ - SOFTWARE ENGINEER & COMPUTER SCIENCE
+================================================
+Location: Phnom Penh, Cambodia
+Email: ream.khorn.se@example.com
+Specialization: Full-Stack Enterprise, Cloud Infrastructure & DSA
+
+TECHNICAL SPECIFICATIONS:
+- Frontend: React.js, Vue.js, TypeScript, Tailwind CSS
+- Backend: PHP 8.x (Laravel), Python (FastAPI/NumPy), Node.js
+- Data & Cloud: SQL Server, PostgreSQL, Redis, Docker, Linux
+
+Generated by Ream.DEV Cyber Portfolio.
+================================================`;
+      const blob = new Blob([doc], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Ream_Khorn_SE_CS_Spec.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Initialize Canvas & Animations
+    window.onload = function() {
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+      animateParticles();
+      runHeroTypewriter();
+    };
+  </script>
+</body>
+</html>
