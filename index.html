@@ -134,9 +134,10 @@
     .glow-spot {
       position: absolute;
       border-radius: 50%;
-      filter: blur(140px);
       pointer-events: none;
       z-index: 0;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
     }
 
     .amber-card {
@@ -166,19 +167,52 @@
 
     /* Modern Bot Styles */
     .lumibot-card {
-      background: radial-gradient(ellipse at 18% 50%, rgba(245,158,11,.12), transparent 42%), linear-gradient(135deg, rgba(21,25,35,.76) 0%, rgba(16,19,27,.68) 55%, rgba(13,16,23,.76) 100%);
-      border: 1px solid rgba(148,163,184,.16);
-      box-shadow: 0 24px 70px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.04);
+      background: radial-gradient(ellipse at 20% 40%, rgba(245,158,11,.16), transparent 50%), 
+                  radial-gradient(ellipse at 80% 70%, rgba(56,189,248,.1), transparent 45%), 
+                  linear-gradient(135deg, rgba(16,20,30,.92) 0%, rgba(11,14,22,.88) 55%, rgba(8,10,16,.96) 100%);
+      border: 1px solid rgba(245,158,11,.28);
+      box-shadow: 0 24px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+    }
+    .lumibot-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(245,158,11,.08), transparent 70%);
+      pointer-events: none;
     }
     .lumibot-stage {
-      background: radial-gradient(ellipse at 50% 55%, rgba(245,158,11,.14), transparent 55%), rgba(7,10,16,.58);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: inset 0 1px rgba(255,255,255,.04);
+      background: radial-gradient(ellipse at 50% 55%, rgba(245,158,11,.18), transparent 60%), rgba(7,10,16,.82);
+      border: 1px solid rgba(245,158,11,.3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 16px 40px rgba(0,0,0,.5);
     }
+    .hologram-pedestal {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 48px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(245,158,11,.35) 0%, rgba(245,158,11,.08) 55%, transparent 75%);
+      border: 1px solid rgba(245,158,11,.4);
+      box-shadow: 0 0 25px rgba(245,158,11,.3), inset 0 0 15px rgba(245,158,11,.2);
+      pointer-events: none;
+    }
+    .hologram-ring {
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(56,189,248,.5);
+      animation: spin-slow 16s linear infinite;
+    }
+
     #bot-eye-l, #bot-eye-r { 
       transform-box: fill-box; 
       transform-origin: center; 
-      transition: cx .12s ease-out, cy .12s ease-out; 
+      transition: cx .12s ease-out, cy .12s ease-out, fill .25s ease; 
     }
     #robot-svg.bot-blink #bot-eye-l, #robot-svg.bot-blink #bot-eye-r { 
       animation: modernBlink .18s ease-in-out; 
@@ -189,9 +223,135 @@
     #robot-svg.bot-laugh #bot-eye-r { animation: laughEyes .38s ease-in-out 4; }
     #robot-svg.bot-laugh #bot-mouth-vent { animation: laughMouth .2s ease-in-out 7; transform-box: fill-box; transform-origin: center; }
     #bot-laugh-reaction.bot-laugh-pop { animation: laughEmojiPop 1.25s ease-out forwards; }
+    
     #robot-wrapper.bot-thinking { 
-      border-color: rgba(245,158,11,.45); 
-      box-shadow: inset 0 0 45px rgba(245,158,11,.1), 0 0 35px rgba(245,158,11,.12); 
+      border-color: rgba(56,189,248,.65); 
+      box-shadow: inset 0 0 45px rgba(56,189,248,.18), 0 0 35px rgba(56,189,248,.25); 
+    }
+    #robot-wrapper.bot-overclock {
+      border-color: rgba(245,158,11,.9);
+      box-shadow: inset 0 0 50px rgba(245,158,11,.3), 0 0 45px rgba(245,158,11,.45);
+    }
+    #robot-wrapper.bot-overclock #bot-reactor {
+      fill: #ff3b00 !important;
+      filter: drop-shadow(0 0 12px #ff6a00);
+      animation: ping 0.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    #robot-wrapper.bot-speaking #bot-mouth-vent line {
+      animation: mouthSpeaking .2s ease-in-out infinite alternate;
+    }
+    @keyframes mouthSpeaking {
+      0% { stroke: #f59e0b; stroke-width: 2px; }
+      100% { stroke: #38bdf8; stroke-width: 3.5px; }
+    }
+
+    /* Scout Recon Drone Bay - Spacious & Fully Visible */
+    .scout-patrol-bay {
+      position: relative;
+      background: linear-gradient(180deg, rgba(14,18,27,0.94) 0%, rgba(9,11,16,0.98) 100%);
+      border: 1px solid rgba(245,158,11,0.28);
+      border-radius: 1.5rem;
+      padding: 1rem 1.25rem 0.75rem 1.25rem;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+    .scout-patrol-bay::before {
+      content: "";
+      position: absolute;
+      left: 1rem; right: 1rem; bottom: 12px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,.4) 15%, rgba(56,189,248,.7) 50%, rgba(245,158,11,.4) 85%, transparent);
+      box-shadow: 0 0 14px rgba(56,189,248,.6);
+    }
+    .scout-rail-strip {
+      position: relative;
+      height: 124px;
+      overflow: visible;
+    }
+    .scout-runner {
+      position: absolute;
+      bottom: 12px;
+      cursor: pointer;
+      transition: filter .25s ease, transform .25s ease;
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      will-change: transform, left;
+    }
+    .scout-runner:hover {
+      filter: drop-shadow(0 0 16px rgba(245,158,11,.95));
+    }
+    .scout-runner--lead {
+      width: 72px; height: 86px;
+      animation: scoutPatrolLead 14s ease-in-out infinite alternate, runnerBounce .34s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 14px rgba(245,158,11,.35));
+    }
+    .scout-runner--buddy {
+      width: 60px; height: 72px;
+      animation: scoutPatrolBuddy 14s ease-in-out infinite alternate, runnerBounce .32s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 14px rgba(56,189,248,.35));
+    }
+    .scout-runner .runner-arm, .scout-runner .runner-leg {
+      transform-box: fill-box;
+      transform-origin: top center;
+      animation-duration: .34s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+    }
+    .scout-runner .runner-arm { animation-name: runnerArmSwing; }
+    .scout-runner .runner-leg { animation-name: runnerLegSwing; }
+    .scout-runner .runner-arm:nth-of-type(even), .scout-runner .runner-leg:nth-of-type(odd) { animation-delay: .17s; }
+
+    @keyframes scoutPatrolLead {
+      0% { left: 4%; transform: scaleX(1); }
+      48% { left: 78%; transform: scaleX(1); }
+      50% { left: 78%; transform: scaleX(-1); }
+      98% { left: 4%; transform: scaleX(-1); }
+      100% { left: 4%; transform: scaleX(1); }
+    }
+    @keyframes scoutPatrolBuddy {
+      0% { left: 82%; transform: scaleX(-1); }
+      48% { left: 16%; transform: scaleX(-1); }
+      50% { left: 16%; transform: scaleX(1); }
+      98% { left: 82%; transform: scaleX(1); }
+      100% { left: 82%; transform: scaleX(-1); }
+    }
+
+    /* Equalizer Waveform Bars */
+    .eq-bar {
+      width: 3px;
+      background: #f59e0b;
+      border-radius: 2px;
+      height: 5px;
+      transition: height .15s ease;
+    }
+    .eq-bar.active {
+      animation: eqDance .35s ease-in-out infinite alternate;
+    }
+    @keyframes eqDance {
+      0% { height: 4px; background: #f59e0b; }
+      50% { height: 18px; background: #38bdf8; }
+      100% { height: 7px; background: #fbbf24; }
+    }
+
+    /* Neural Chat Console Styling */
+    .bot-chat-history {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(245,158,11,.3) rgba(10,11,14,.5);
+    }
+    .bot-chat-history::-webkit-scrollbar { width: 5px; }
+    .bot-chat-history::-webkit-scrollbar-track { background: rgba(10,11,14,.5); border-radius: 9999px; }
+    .bot-chat-history::-webkit-scrollbar-thumb { background: rgba(245,158,11,.3); border-radius: 9999px; }
+    .bot-chat-history::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+
+    .bot-msg-bubble {
+      animation: msgSlideIn .22s ease-out forwards;
+    }
+    @keyframes msgSlideIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes modernBlink {
@@ -211,98 +371,6 @@
     @keyframes laughEyes { 0%, 100% { transform: scaleY(1); } 45%, 70% { transform: scaleY(.12); } }
     @keyframes laughMouth { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.8); } }
     @keyframes laughEmojiPop { 0% { opacity: 0; transform: translateY(8px) scale(.4) rotate(-15deg); } 25% { opacity: 1; transform: translateY(-8px) scale(1.2) rotate(8deg); } 70% { opacity: 1; transform: translateY(-24px) scale(1) rotate(-6deg); } 100% { opacity: 0; transform: translateY(-38px) scale(.8); } }
-    .home-robot-runway {
-      position: relative;
-      z-index: 20;
-      left: 50%;
-      width: 100vw;
-      height: 170px;
-      flex: 0 0 170px;
-      margin-top: -14px;
-      transform: translateX(-50%);
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .home-robot-runway::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 9px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(245,158,11,.3) 12%, rgba(148,163,184,.16) 88%, transparent);
-    }
-    .runner-conversation {
-      position: absolute;
-      z-index: 25;
-      top: 7px;
-      left: 50%;
-      width: min(520px, calc(100% - 32px));
-      transform: translateX(-50%);
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .runner-speech {
-      min-height: 38px;
-      padding: 5px 9px;
-      overflow: hidden;
-      border: 1px solid rgba(245,158,11,.3);
-      border-radius: 12px;
-      background: rgba(7,10,16,.76);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      color: #fde68a;
-      font: 9px/1.35 'JetBrains Mono', monospace;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,.2);
-    }
-    .runner-speech--byte {
-      border-color: rgba(56,189,248,.3);
-      color: #bae6fd;
-    }
-    .runner-speech-name {
-      display: block;
-      margin-bottom: 2px;
-      color: #fbbf24;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-    }
-    .runner-speech--byte .runner-speech-name { color: #7dd3fc; }
-    .home-robot-runner {
-      position: absolute;
-      bottom: 7px;
-      left: calc(100% + 130px);
-      transform-box: fill-box;
-      transform-origin: center bottom;
-      animation: lumiRunAcross 14s ease-in-out infinite alternate, runnerBounce .34s ease-in-out infinite alternate;
-      filter: drop-shadow(0 7px 15px rgba(245,158,11,.3));
-    }
-    .home-robot-runner--lead { width: 100px; height: 118px; }
-    .home-robot-runner--buddy { width: 78px; height: 92px; bottom: 10px; animation-name: lumiRunBack, runnerBounce; filter: drop-shadow(0 6px 13px rgba(56,189,248,.28)); }
-    .home-robot-runner .runner-arm,
-    .home-robot-runner .runner-leg {
-      transform-box: fill-box;
-      transform-origin: top center;
-      animation-duration: .36s;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-    }
-    .home-robot-runner .runner-arm { animation-name: runnerArmSwing; }
-    .home-robot-runner .runner-leg { animation-name: runnerLegSwing; }
-    .home-robot-runner .runner-arm:nth-of-type(even),
-    .home-robot-runner .runner-leg:nth-of-type(odd) { animation-delay: .18s; }
-    @keyframes lumiRunAcross {
-      from { left: calc(100% + 130px); }
-      to { left: -130px; }
-    }
-    @keyframes lumiRunBack {
-      from { left: -130px; }
-      to { left: calc(100% + 130px); }
-    }
     @keyframes runnerArmSwing {
       from { transform: rotate(-30deg); }
       to { transform: rotate(30deg); }
@@ -316,11 +384,69 @@
       to { transform: translateY(-3px) rotate(1deg); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .home-robot-runner, .home-robot-runner .runner-arm, .home-robot-runner .runner-leg { animation: none; }
-      .home-robot-runner--lead { left: calc(50% - 80px); }
-      .home-robot-runner--buddy { left: calc(50% + 20px); }
+      .scout-runner, .scout-runner .runner-arm, .scout-runner .runner-leg { animation: none; }
+      .scout-runner--lead { left: calc(50% - 60px); }
+      .scout-runner--buddy { left: calc(50% + 20px); }
       #robot-svg.bot-laugh, #robot-svg.bot-laugh #bot-eye-l, #robot-svg.bot-laugh #bot-eye-r,
       #robot-svg.bot-laugh #bot-mouth-vent, #bot-laugh-reaction.bot-laugh-pop { animation: none; }
+    }
+
+    
+    /* Mobile Device Optimizations for LumiBot & Scout Bay */
+    @media (max-width: 640px) {
+      .scout-patrol-bay {
+        padding: 0.75rem 0.85rem 0.6rem 0.85rem !important;
+        border-radius: 1.25rem !important;
+      }
+      .scout-rail-strip {
+        height: 104px !important;
+      }
+      .scout-runner--lead {
+        width: 56px !important;
+        height: 68px !important;
+      }
+      .scout-runner--buddy {
+        width: 48px !important;
+        height: 58px !important;
+      }
+      .lumibot-stage {
+        min-height: 350px !important;
+        padding: 0.85rem !important;
+      }
+      #robot-svg {
+        width: 190px !important;
+        height: 210px !important;
+      }
+      .hologram-pedestal {
+        width: 170px !important;
+        height: 38px !important;
+        bottom: 18px !important;
+      }
+      #bot-chat-history {
+        height: 240px !important;
+      }
+      #bot-chat-input {
+        font-size: 16px !important; /* Prevents auto-zoom on iOS */
+      }
+    }
+
+    @keyframes scoutPatrolLeadMobile {
+      0% { left: 2%; transform: scaleX(1); }
+      48% { left: 70%; transform: scaleX(1); }
+      50% { left: 70%; transform: scaleX(-1); }
+      98% { left: 2%; transform: scaleX(-1); }
+      100% { left: 2%; transform: scaleX(1); }
+    }
+    @keyframes scoutPatrolBuddyMobile {
+      0% { left: 72%; transform: scaleX(-1); }
+      48% { left: 8%; transform: scaleX(-1); }
+      50% { left: 8%; transform: scaleX(1); }
+      98% { left: 72%; transform: scaleX(1); }
+      100% { left: 72%; transform: scaleX(-1); }
+    }
+    @media (max-width: 640px) {
+      .scout-runner--lead { animation-name: scoutPatrolLeadMobile, runnerBounce; }
+      .scout-runner--buddy { animation-name: scoutPatrolBuddyMobile, runnerBounce; }
     }
 
     .signature-font { font-family: 'Caveat', cursive; }
@@ -347,7 +473,7 @@
 <body class="selection:bg-amber-500 selection:text-black relative">
 
   <!-- Full-page cinematic background video -->
-  <div class="site-video-backdrop" aria-hidden="true">
+  <div class="site-video-backdrop" style="transform: translate3d(0,0,0); contain: strict;" aria-hidden="true">
     <video autoplay muted loop playsinline preload="metadata" tabindex="-1" aria-hidden="true">
       <source src="./images/back.mp4" type="video/mp4">
     </video>
@@ -356,10 +482,10 @@
   <!-- Interactive Matrix Canvas Background -->
   <canvas id="matrix-canvas"></canvas>
 
-  <!-- Ambient Light Effects -->
-  <div class="glow-spot w-[600px] h-[600px] bg-amber-600/15 top-[-100px] right-[-100px]"></div>
-  <div class="glow-spot w-[500px] h-[500px] bg-orange-600/10 top-[600px] left-[-150px]"></div>
-  <div class="glow-spot w-[500px] h-[500px] bg-amber-500/10 bottom-[-100px] right-1/4"></div>
+  <!-- Ambient Light Effects (Hardware Accelerated Radial Gradients) -->
+  <div class="glow-spot w-[600px] h-[600px] top-[-100px] right-[-100px]" style="background: radial-gradient(circle, rgba(217,119,6,0.14) 0%, transparent 70%);"></div>
+  <div class="glow-spot w-[500px] h-[500px] top-[600px] left-[-150px]" style="background: radial-gradient(circle, rgba(234,88,12,0.11) 0%, transparent 70%);"></div>
+  <div class="glow-spot w-[500px] h-[500px] bottom-[-100px] right-1/4" style="background: radial-gradient(circle, rgba(245,158,11,0.11) 0%, transparent 70%);"></div>
 
   <!-- Top Navigation Bar -->
   <header class="sticky top-0 z-40 w-full px-3 sm:px-6 pt-3 transition-all">
@@ -553,69 +679,101 @@
 
     </section>
 
-      <div class="home-robot-runway" style="margin-top: 56px" aria-label="Lumi and Byte talk to each other while running" role="group">
-        <div class="runner-conversation" aria-live="off">
-          <div class="runner-speech"><span class="runner-speech-name">Lumi</span><span id="runner-lumi-line">Systems check: all green!</span></div>
-          <div class="runner-speech runner-speech--byte"><span class="runner-speech-name">Byte</span><span id="runner-byte-line">Great! Let's get moving.</span></div>
-        </div>
-        <svg class="home-robot-runner home-robot-runner--lead" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M60 18V9" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="6" r="4" fill="#fb923c"/>
-          <path d="M40 18L60 12L80 18" stroke="#f59e0b" stroke-opacity=".55" stroke-width="2"/>
-          <path d="M34 22L86 22L96 38L90 60L82 65H38L30 60L24 38Z" fill="#202838" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M40 26H80L86 34H34Z" fill="#374151" stroke="#64748b"/>
-          <path d="M34 36L86 36L82 53H38Z" fill="#070b12" stroke="#38bdf8" stroke-width="1.8"/>
-          <circle cx="47" cy="44" r="4" fill="#38bdf8"/><circle cx="73" cy="44" r="4" fill="#38bdf8"/>
-          <path d="M53 53H67" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
-          <path d="M48 61L72 61L76 68H44Z" fill="#374151" stroke="#f59e0b" stroke-width="2"/>
-          <path d="M39 68L81 68L88 99L78 108H42L32 99Z" fill="#1b2433" stroke="#64748b" stroke-width="2.5" stroke-linejoin="round"/>
-          <path d="M46 73H74L71 81H49Z" fill="#30394b" stroke="#f59e0b" stroke-width="1.5"/>
-          <circle cx="60" cy="91" r="10" fill="#090d16" stroke="#f59e0b" stroke-width="2.5"/><circle cx="60" cy="91" r="5" fill="#fb923c"/>
-          <path d="M46 103L74 103L70 110H50Z" fill="#30394b" stroke="#475569"/>
-          <g class="runner-arm"><path d="M38 72L24 84L29 98" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/><circle cx="24" cy="84" r="5" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M29 98L23 103L20 99M29 98L34 104" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/></g>
-          <g class="runner-arm"><path d="M82 72L96 84L91 98" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/><circle cx="96" cy="84" r="5" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M91 98L86 104M91 98L97 103" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/></g>
-          <g class="runner-leg"><path d="M48 107L42 122L34 127" stroke="#9ca3af" stroke-width="10" stroke-linecap="round"/><circle cx="42" cy="122" r="4" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M34 127H23L20 132H41L45 128" fill="#202838" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/></g>
-          <g class="runner-leg"><path d="M72 107L78 122L86 127" stroke="#9ca3af" stroke-width="10" stroke-linecap="round"/><circle cx="78" cy="122" r="4" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M86 127H97L100 132H79L75 128" fill="#202838" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/></g>
-        </svg>
+      <!-- SECTION 6: NEXT-GEN AI MECH COMPANION (LUMIBOT-X) & SCOUT SQUAD -->
+    <section id="lumi-assistant" class="lumibot-card p-4 sm:p-7 lg:p-9 rounded-[2rem] relative overflow-hidden scroll-mt-24 space-y-7">
+      <div class="absolute -top-24 -left-16 w-80 h-80 rounded-full bg-amber-500/15 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-16 w-80 h-80 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div>
 
-        <svg class="home-robot-runner home-robot-runner--buddy" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M60 20V11" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="8" r="4" fill="#38bdf8"/>
-          <path d="M39 24Q60 8 81 24L88 43L81 61H39L32 43Z" fill="#172536" stroke="#38bdf8" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M39 36H81L77 52H43Z" fill="#060b13" stroke="#60a5fa" stroke-width="1.8"/>
-          <path d="M49 42L54 45L49 48M71 42L66 45L71 48" stroke="#67e8f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M49 63H71L76 71H44Z" fill="#30394b" stroke="#38bdf8" stroke-width="2"/>
-          <path d="M38 70L82 70L87 101L77 110H43L33 101Z" fill="#172536" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/>
-          <path d="M45 76L75 76L72 83H48Z" fill="#26364b" stroke="#38bdf8"/>
-          <rect x="51" y="88" width="18" height="13" rx="4" fill="#07111b" stroke="#38bdf8" stroke-width="2"/><path d="M56 94H64" stroke="#67e8f9" stroke-width="2"/>
-          <g class="runner-arm"><path d="M38 75L24 87L29 99" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/><circle cx="24" cy="87" r="5" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M29 99L22 104M29 99L34 104" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/></g>
-          <g class="runner-arm"><path d="M82 75L96 87L91 99" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/><circle cx="96" cy="87" r="5" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M91 99L86 104M91 99L98 103" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/></g>
-          <g class="runner-leg"><path d="M48 108L42 123L34 128" stroke="#94a3b8" stroke-width="9" stroke-linecap="round"/><circle cx="42" cy="123" r="4" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M34 128H23L20 133H41L45 129" fill="#172536" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/></g>
-          <g class="runner-leg"><path d="M72 108L78 123L86 128" stroke="#94a3b8" stroke-width="9" stroke-linecap="round"/><circle cx="78" cy="123" r="4" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M86 128H97L100 133H79L75 129" fill="#172536" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/></g>
-        </svg>
+      <!-- Top Scout Recon Drone Bay (Unobstructed, 100% Fully Visible Robots) -->
+      <div class="scout-patrol-bay relative z-10" aria-label="Scout Recon Bay: Units Lumi & Byte">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pb-2.5 border-b border-white/10 font-mono">
+          <div class="flex items-center gap-2 text-amber-300 text-xs font-bold tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+            <span>Scout Recon Unit // Lumi-01 &amp; Byte-02</span>
+          </div>
+          
+          <!-- Tactical Comms Streamer Cleanly Integrated in Header (Never covers the robots) -->
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#07090f] border border-amber-500/30 text-amber-200 text-[10px] sm:text-[11px] shadow-inner max-w-full">
+            <i class="fa-solid fa-satellite-dish text-amber-400 animate-pulse text-[10px]"></i>
+            <span id="scout-comms-text" class="truncate max-w-[260px] sm:max-w-md">LUMI: "Systems check: all green!" <span class="text-sky-400">↔</span> BYTE: "Great! Let's get moving."</span>
+          </div>
+        </div>
+
+        <!-- Dedicated High-Clearance Runway Track (Robots 100% Fully Visible) -->
+        <div class="scout-rail-strip" id="scout-rail-strip">
+          <!-- Lumi Scout Robot (Full Head-to-Toe View) -->
+          <svg class="scout-runner scout-runner--lead" id="scout-lumi-bot" onclick="clickScoutBot('lumi')" title="Click Scout Lumi for emote!" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 18V9" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="6" r="4" fill="#fb923c"/>
+            <path d="M40 18L60 12L80 18" stroke="#f59e0b" stroke-opacity=".55" stroke-width="2"/>
+            <path d="M34 22L86 22L96 38L90 60L82 65H38L30 60L24 38Z" fill="#202838" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M40 26H80L86 34H34Z" fill="#374151" stroke="#64748b"/>
+            <path d="M34 36L86 36L82 53H38Z" fill="#070b12" stroke="#38bdf8" stroke-width="1.8"/>
+            <circle cx="47" cy="44" r="4" fill="#38bdf8"/><circle cx="73" cy="44" r="4" fill="#38bdf8"/>
+            <path d="M53 53H67" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/>
+            <path d="M48 61L72 61L76 68H44Z" fill="#374151" stroke="#f59e0b" stroke-width="2"/>
+            <path d="M39 68L81 68L88 99L78 108H42L32 99Z" fill="#1b2433" stroke="#64748b" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M46 73H74L71 81H49Z" fill="#30394b" stroke="#f59e0b" stroke-width="1.5"/>
+            <circle cx="60" cy="91" r="10" fill="#090d16" stroke="#f59e0b" stroke-width="2.5"/><circle cx="60" cy="91" r="5" fill="#fb923c"/>
+            <path d="M46 103L74 103L70 110H50Z" fill="#30394b" stroke="#475569"/>
+            <g class="runner-arm"><path d="M38 72L24 84L29 98" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/><circle cx="24" cy="84" r="5" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M29 98L23 103L20 99M29 98L34 104" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/></g>
+            <g class="runner-arm"><path d="M82 72L96 84L91 98" stroke="#9ca3af" stroke-width="9" stroke-linecap="round"/><circle cx="96" cy="84" r="5" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M91 98L86 104M91 98L97 103" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/></g>
+            <g class="runner-leg"><path d="M48 107L42 122L34 127" stroke="#9ca3af" stroke-width="10" stroke-linecap="round"/><circle cx="42" cy="122" r="4" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M34 127H23L20 132H41L45 128" fill="#202838" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/></g>
+            <g class="runner-leg"><path d="M72 107L78 122L86 127" stroke="#9ca3af" stroke-width="10" stroke-linecap="round"/><circle cx="78" cy="122" r="4" fill="#1b2433" stroke="#f59e0b" stroke-width="2"/><path d="M86 127H97L100 132H79L75 128" fill="#202838" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/></g>
+          </svg>
+
+          <!-- Byte Scout Robot -->
+          <svg class="scout-runner scout-runner--buddy" id="scout-byte-bot" onclick="clickScoutBot('byte')" title="Click Scout Byte for emote!" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 20V11" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="8" r="4" fill="#38bdf8"/>
+            <path d="M39 24Q60 8 81 24L88 43L81 61H39L32 43Z" fill="#172536" stroke="#38bdf8" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M39 36H81L77 52H43Z" fill="#060b13" stroke="#60a5fa" stroke-width="1.8"/>
+            <path d="M49 42L54 45L49 48M71 42L66 45L71 48" stroke="#67e8f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M49 63H71L76 71H44Z" fill="#30394b" stroke="#38bdf8" stroke-width="2"/>
+            <path d="M38 70L82 70L87 101L77 110H43L33 101Z" fill="#172536" stroke="#475569" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M45 76L75 76L72 83H48Z" fill="#26364b" stroke="#38bdf8"/>
+            <rect x="51" y="88" width="18" height="13" rx="4" fill="#07111b" stroke="#38bdf8" stroke-width="2"/><path d="M56 94H64" stroke="#67e8f9" stroke-width="2"/>
+            <g class="runner-arm"><path d="M38 75L24 87L29 99" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/><circle cx="24" cy="87" r="5" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M29 99L22 104M29 99L34 104" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/></g>
+            <g class="runner-arm"><path d="M82 75L96 87L91 99" stroke="#94a3b8" stroke-width="8" stroke-linecap="round"/><circle cx="96" cy="87" r="5" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M91 99L86 104M91 99L98 103" stroke="#67e8f9" stroke-width="3" stroke-linecap="round"/></g>
+            <g class="runner-leg"><path d="M48 108L42 123L34 128" stroke="#94a3b8" stroke-width="9" stroke-linecap="round"/><circle cx="42" cy="123" r="4" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M34 128H23L20 133H41L45 129" fill="#172536" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/></g>
+            <g class="runner-leg"><path d="M72 108L78 123L86 128" stroke="#94a3b8" stroke-width="9" stroke-linecap="round"/><circle cx="78" cy="123" r="4" fill="#172536" stroke="#38bdf8" stroke-width="2"/><path d="M86 128H97L100 133H79L75 129" fill="#172536" stroke="#38bdf8" stroke-width="2.5" stroke-linejoin="round"/></g>
+          </svg>
+        </div>
       </div>
 
-        <!-- SECTION 6: REDESIGNED MODERN AUTONOMOUS MECH COMPANION -->
-    <section id="lumi-assistant" class="lumibot-card p-5 sm:p-8 lg:p-10 rounded-[2rem] relative overflow-hidden scroll-mt-24">
-      <div class="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative">
+      <!-- Main LumiBot-X Interactive Stage & Neural AI Console -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
         
-        <!-- Modern Robot Interactive Stage -->
-        <div class="lg:col-span-5 flex flex-col items-center justify-center">
-          <div class="lumibot-stage relative w-full max-w-sm min-h-[380px] rounded-[1.85rem] flex items-center justify-center cursor-pointer select-none" id="robot-wrapper" onclick="cycleBotQuote()" title="Click to interact with LumiBot-X">
-            <span class="absolute top-4 left-5 text-[10px] tracking-[.25em] uppercase font-mono text-amber-400/80">LUMI-MECH · MK-IV</span>
-            <span class="absolute top-5 right-5 flex items-center gap-2 text-[10px] font-mono text-emerald-300">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span id="bot-status">NEURAL ONLINE</span>
-            </span>
-
-            <!-- Speech Bubble -->
-            <div id="robot-speech-bubble" class="absolute bottom-4 left-4 right-4 bg-[#0a0b0e]/95 border border-amber-500/40 p-3 rounded-xl text-center text-xs font-mono text-amber-200 shadow-xl transition-all z-20 backdrop-blur-md">
-              <span id="robot-speech-text">Systems calibrated. I am LumiBot-X, Ream's computational co-pilot!</span>
-              <a id="bot-navigation-link" href="#" class="hidden mt-2 inline-flex items-center gap-1 text-amber-300 hover:text-amber-100 underline underline-offset-4" onclick="event.stopPropagation()">Explore section <span aria-hidden="true">&rarr;</span></a>
+        <!-- Modern 3D Holographic Robot Interactive Stage -->
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="lumibot-stage relative w-full max-w-sm min-h-[410px] rounded-[1.85rem] flex flex-col items-center justify-between p-5 select-none" id="robot-wrapper" title="Interactive MK-IV Mech Assistant">
+            
+            <!-- Top Status Bar of Mech Stage -->
+            <div class="w-full flex items-center justify-between z-20">
+              <span class="text-[10px] tracking-[.25em] uppercase font-mono text-amber-400/90 font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-microchip text-amber-400"></i> LUMI-MECH · MK-IV
+              </span>
+              <span class="flex items-center gap-1.5 text-[10px] font-mono text-emerald-300 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="bot-status">NEURAL ONLINE</span>
+              </span>
             </div>
-            <span id="bot-laugh-reaction" class="absolute top-16 right-[22%] z-20 text-4xl opacity-0 pointer-events-none" aria-hidden="true">😂</span>
 
-            <!-- UPGRADED MODERN CYBER MECH SVG -->
-            <svg id="robot-svg" width="250" height="280" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-float -mt-6">
+            <!-- Hologram Pedestal Effect -->
+            <div class="hologram-pedestal">
+              <div class="hologram-ring"></div>
+            </div>
+
+            <!-- Speech HUD Badge on Stage -->
+            <div id="robot-speech-bubble" class="w-full my-2 bg-[#080b11]/90 border border-amber-500/30 px-3.5 py-2.5 rounded-xl text-center text-xs font-mono text-amber-200 shadow-xl transition-all z-20 backdrop-blur-md">
+              <div class="flex items-center justify-center gap-1.5 mb-1 text-[9px] uppercase tracking-widest text-amber-400/70">
+                <i class="fa-solid fa-wave-square"></i> TELEMETRY COMMS
+              </div>
+              <span id="robot-speech-text">Systems calibrated. I am LumiBot-X, Ream's computational co-pilot!</span>
+            </div>
+
+            <span id="bot-laugh-reaction" class="absolute top-16 right-[22%] z-30 text-4xl opacity-0 pointer-events-none" aria-hidden="true">😂</span>
+
+            <!-- UPGRADED MODERN CYBER MECH SVG WITH CLICKABLE ZONES -->
+            <svg id="robot-svg" width="240" height="260" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-float my-auto cursor-pointer" onclick="cycleBotQuote()">
               <defs>
                 <linearGradient id="chassisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#2a3347"/>
@@ -638,10 +796,12 @@
                 </filter>
               </defs>
 
-              <!-- Mech Antenna & Signal Array -->
-              <path d="M140 38 L140 14" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="140" cy="12" r="5" fill="#f59e0b" filter="url(#neonGlow)"/>
-              <path d="M125 24 L140 18 L155 24" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1.5" fill="none"/>
+              <!-- Mech Antenna & Signal Array (Clickable) -->
+              <g onclick="event.stopPropagation(); triggerAntennaPing();" title="Click Antenna to transmit ping" class="cursor-pointer" style="touch-action: manipulation;"><circle cx="140" cy="14" r="18" fill="transparent"/>
+                <path d="M140 38 L140 14" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+                <circle id="bot-antenna-beacon" cx="140" cy="12" r="5" fill="#f59e0b" filter="url(#neonGlow)"/>
+                <path d="M125 24 L140 18 L155 24" stroke="rgba(245, 158, 11, 0.4)" stroke-width="1.5" fill="none"/>
+              </g>
 
               <!-- Outer Ears / Sensor Pods -->
               <rect x="66" y="58" width="10" height="32" rx="4" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1.5"/>
@@ -653,18 +813,20 @@
               <!-- Carbon Brow Plates -->
               <polygon points="90,52 190,52 202,74 78,74" fill="url(#carbonGrad)" stroke="#f59e0b" stroke-width="1"/>
 
-              <!-- Cybernetic Visor Screen -->
-              <path d="M84 76 L196 76 L188 108 L92 108 Z" fill="#06080d" stroke="#f59e0b" stroke-width="1.8" filter="url(#neonGlow)"/>
+              <!-- Cybernetic Visor Screen (Clickable to change eye mood) -->
+              <g onclick="event.stopPropagation(); cycleVisorColor();" title="Click Visor to cycle optics color" class="cursor-pointer" style="touch-action: manipulation;"><rect x="75" y="65" width="130" height="50" rx="8" fill="transparent"/>
+                <path d="M84 76 L196 76 L188 108 L92 108 Z" fill="#06080d" stroke="#f59e0b" stroke-width="1.8" filter="url(#neonGlow)"/>
 
-              <!-- Dynamic Interactive Eyes with Live Aim Tracking -->
-              <g id="bot-left-eye">
-                <rect x="100" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
-                <circle id="bot-eye-l" cx="114" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
-              </g>
+                <!-- Dynamic Interactive Eyes with Live Aim Tracking -->
+                <g id="bot-left-eye">
+                  <rect x="100" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+                  <circle id="bot-eye-l" cx="114" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
+                </g>
 
-              <g id="bot-right-eye">
-                <rect x="152" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
-                <circle id="bot-eye-r" cx="166" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
+                <g id="bot-right-eye">
+                  <rect x="152" y="84" width="28" height="16" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="1"/>
+                  <circle id="bot-eye-r" cx="166" cy="92" r="5" fill="#38bdf8" filter="url(#cyanGlow)"/>
+                </g>
               </g>
 
               <!-- Jaw Audio Visualizer Vent -->
@@ -694,10 +856,12 @@
               <!-- Cyber Armor Chest Inset -->
               <polygon points="102,152 178,152 166,204 114,204" fill="url(#carbonGrad)" stroke="#1e293b" stroke-width="1"/>
 
-              <!-- Modern Quantum Arc Core Reactor -->
-              <circle cx="140" cy="184" r="19" fill="#090d16" stroke="#f59e0b" stroke-width="2.5"/>
-              <circle cx="140" cy="184" r="14" fill="#1e1808" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="4 2" class="animate-spin-slow"/>
-              <circle id="bot-reactor" cx="140" cy="184" r="8" fill="#f59e0b" filter="url(#neonGlow)" class="animate-pulse"/>
+              <!-- Modern Quantum Arc Core Reactor (Clickable Overclock) -->
+              <g onclick="event.stopPropagation(); toggleBotOverclock();" title="Click to Overclock Core" class="cursor-pointer" style="touch-action: manipulation;"><circle cx="140" cy="184" r="26" fill="transparent"/>
+                <circle cx="140" cy="184" r="19" fill="#090d16" stroke="#f59e0b" stroke-width="2.5"/>
+                <circle id="bot-reactor-ring" cx="140" cy="184" r="14" fill="#1e1808" stroke="#ff6a00" stroke-width="1.5" stroke-dasharray="4 2" class="animate-spin-slow"/>
+                <circle id="bot-reactor" cx="140" cy="184" r="8" fill="#f59e0b" filter="url(#neonGlow)" class="animate-pulse"/>
+              </g>
 
               <!-- Lower Hydraulic Abdominal Pistons -->
               <line x1="124" y1="210" x2="124" y2="230" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
@@ -720,43 +884,156 @@
               <circle cx="130" cy="264" r="3" fill="#38bdf8" filter="url(#cyanGlow)"/>
               <circle cx="150" cy="264" r="3" fill="#38bdf8" filter="url(#cyanGlow)"/>
             </svg>
+
+            <!-- Real-time Equalizer Waveform & Stage Toolbar -->
+            <div class="w-full flex items-center justify-between pt-2 border-t border-white/10 z-20">
+              <div class="flex items-center gap-1.5" title="Live Voice Frequency Telemetry">
+                <span class="text-[9px] font-mono text-slate-400">AUDIO:</span>
+                <div class="flex items-end gap-1 h-4">
+                  <div class="eq-bar" id="eq1"></div>
+                  <div class="eq-bar" id="eq2"></div>
+                  <div class="eq-bar" id="eq3"></div>
+                  <div class="eq-bar" id="eq4"></div>
+                  <div class="eq-bar" id="eq5"></div>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-1.5">
+                <button onclick="toggleBotOverclock()" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-[10px] font-mono transition-all flex items-center gap-1" title="Overclock Mech CPU">
+                  <i class="fa-solid fa-bolt text-amber-400"></i> OVERCLOCK
+                </button>
+                <button onclick="toggleBotVoice()" id="bot-voice-toggle-btn" class="px-2.5 py-1 rounded-lg bg-sky-500/15 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 text-[10px] font-mono transition-all flex items-center gap-1" title="Toggle AI Text-to-Speech">
+                  <i class="fa-solid fa-volume-high text-sky-400" id="bot-voice-icon"></i> VOICE: ON
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- Robot Explainer & Interactive Controls -->
-        <div class="lg:col-span-7 space-y-5 lg:pl-2">
-          <div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-amber-400/[.08] border border-amber-400/20 font-mono text-[10px] sm:text-xs tracking-[.12em] text-amber-300">
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-            <span>NEXT-GEN AI MECH ACTIVE</span>
+        <!-- Next-Gen Neural AI Chat Console (Smarter, Multi-Turn, Interactive) -->
+        <div class="lg:col-span-7 flex flex-col space-y-4">
+          
+          <!-- Top Info Header -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/[.09] border border-amber-400/25 font-mono text-[10px] sm:text-xs text-amber-300">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+              <span>NEXT-GEN AI MECH ACTIVE // v3.5 NEURAL ENGINE</span>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] font-mono text-slate-400">
+              <span>LATENCY: <strong class="text-emerald-400 font-normal">8ms</strong></span>
+              <span>SYNC: <strong class="text-amber-300 font-normal">99.8%</strong></span>
+            </div>
           </div>
 
-          <div class="space-y-3">
-            <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Meet <span class="text-amber-400">LumiBot-X</span></h3>
-            <p class="text-base sm:text-lg font-semibold text-slate-200">Ream's modern autonomous assistant</p>
-            <p class="max-w-2xl text-slate-400 text-sm sm:text-base leading-relaxed">
-              Equipped with real-time neural eye tracking, telemetry diagnostics, and instant insight into Ream's software architecture and algorithmic roadmap.
+          <div class="space-y-1.5">
+            <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
+              Meet <span class="text-amber-400">LumiBot-X</span>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono font-normal">AI Co-Pilot</span>
+            </h3>
+            <p class="text-sm font-semibold text-slate-200">Ream's Modern Autonomous Assistant &amp; CS Co-Pilot</p>
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Equipped with deep telemetry into Ream's full-stack architecture, 15+ engineering artifacts, database systems, and CS algorithmic roadmaps.
             </p>
           </div>
 
-          <div class="flex flex-wrap gap-2.5 pt-1">
-            <button onclick="botSay('greeting')" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-mono transition-all">
-              👋 Greet Ream
-            </button>
-            <button onclick="botSay('vision')" class="px-4 py-2 rounded-xl bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 border border-orange-500/30 text-xs font-mono transition-all">
-              🚀 CS Vision
-            </button>
-            <button onclick="botSay('fact')" class="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-mono transition-all">
-              💡 Algorithm Fact
-            </button>
-            <button onclick="botSay('laugh')" class="px-4 py-2 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-200 border border-sky-400/25 text-xs font-mono transition-all">😂 Make LumiBot laugh</button>
+          <!-- Neural Chat Terminal Window -->
+          <div class="amber-card bg-[#090b10]/90 border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+            
+            <!-- Terminal Title Bar -->
+            <div class="bg-[#0e121a] px-4 py-2.5 border-b border-white/10 flex items-center justify-between font-mono text-xs text-slate-400">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                <span class="ml-2 text-slate-300 font-bold">LUMIBOT_NEURAL_SHELL // REAM_KB</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="clearBotChat()" class="text-[10px] text-slate-400 hover:text-amber-300 transition-colors" title="Clear chat history">
+                  <i class="fa-solid fa-trash-can mr-1"></i> Clear
+                </button>
+              </div>
+            </div>
+
+            <!-- Scrollable Message Stream -->
+            <div id="bot-chat-history" class="bot-chat-history p-4 font-mono text-xs h-[290px] overflow-y-auto space-y-3.5 bg-[#06080d]/85">
+              
+              <!-- Welcome Initial Message -->
+              <div class="bot-msg-bubble flex items-start gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400 mt-0.5">
+                  <i class="fa-solid fa-robot text-xs"></i>
+                </div>
+                <div class="flex-1 bg-[#101420] border border-amber-500/20 rounded-2xl p-3.5 space-y-2 text-slate-200">
+                  <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-white/5 pb-1">
+                    <span class="font-bold text-amber-300">LumiBot-X [AI Companion]</span>
+                    <span>System Ready</span>
+                  </div>
+                  <p class="leading-relaxed">
+                    👋 <strong>Greetings! I am LumiBot-X</strong>, Ream's computational co-pilot. I have full technical telemetry on Ream's full-stack stack, 15+ engineering projects, cloud architecture, and computer science research.
+                  </p>
+                  <p class="text-slate-400 text-[11px]">
+                    What would you like to explore? Choose a topic below or type any question!
+                  </p>
+                  <div class="flex flex-wrap gap-1.5 pt-1">
+                    <button onclick="askBotPreset('projects')" class="px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px]">🚀 View Projects</button>
+                    <button onclick="askBotPreset('skills')" class="px-2 py-1 rounded bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px]">💻 Tech Stack</button>
+                    <button onclick="askBotPreset('resume')" class="px-2 py-1 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">📄 Resume Spec</button>
+                    <button onclick="askBotPreset('quiz')" class="px-2 py-1 rounded bg-orange-500/10 hover:bg-orange-500/20 text-orange-300 border border-orange-500/30 text-[10px]">🎮 Play CS Quiz</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Smart Suggested Prompt Pills (One-Click) -->
+            <div class="px-3.5 py-2 bg-[#0c1018] border-t border-white/5 flex items-center gap-1.5 overflow-x-auto no-scrollbar text-[11px] font-mono" style="-webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; touch-action: pan-x;">
+              <span class="text-slate-500 text-[10px] whitespace-nowrap shrink-0"><i class="fa-solid fa-sparkles text-amber-400"></i> Prompts:</span>
+              <button onclick="askBotPreset('who_is_ream')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">👤 Who is Ream?</button>
+              <button onclick="askBotPreset('skills')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">💻 Core Tech Stack</button>
+              <button onclick="askBotPreset('nexuscore')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">🚀 NexusCore ERP</button>
+              <button onclick="askBotPreset('why_hire')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">⚡ Why Hire Ream?</button>
+              <button onclick="askBotPreset('dijkstra')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">🧠 Dijkstra's Algorithm</button>
+              <button onclick="askBotPreset('big_o')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-white/10 transition-colors">📊 Big-O Complexity</button>
+              <button onclick="askBotPreset('quiz')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-orange-500/10 hover:bg-orange-500/25 text-orange-300 border border-orange-500/30 transition-colors">🎮 Play CS Quiz</button>
+              <button onclick="askBotPreset('joke')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-white/5 hover:bg-sky-500/20 text-slate-300 hover:text-sky-300 border border-white/10 transition-colors">😂 Dev Joke</button>
+              <button onclick="askBotPreset('resume')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-emerald-500/10 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition-colors">📄 Download Resume</button>
+            </div>
+
+            <!-- Terminal Prompt Input Form -->
+            <form id="bot-chat-form" class="bg-[#090b10] p-3 border-t border-white/10 flex items-center gap-2">
+              <span class="text-amber-400 font-mono text-sm pl-1 font-bold">&gt;</span>
+              <input id="bot-chat-input" type="text" maxlength="200" autocomplete="off" placeholder="Ask about Ream, projects, skills, CS algorithms, or say 'quiz'…" class="min-w-0 flex-1 bg-transparent px-2 py-1.5 text-xs font-mono text-white placeholder:text-slate-500 outline-none focus:text-amber-200">
+              <button type="button" onclick="document.getElementById('bot-chat-input').value=''" class="text-slate-500 hover:text-slate-300 text-xs px-1" title="Clear input">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <button type="submit" id="btn-bot-send" class="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-[#15100a] text-xs font-mono font-bold transition-all shadow-md flex items-center gap-1.5 active:scale-95">
+                <span>Ask LumiBot</span> <i class="fa-solid fa-arrow-turn-down fa-rotate-90 text-[10px]"></i>
+              </button>
+            </form>
+
           </div>
 
-          <form id="bot-chat-form" class="flex flex-col sm:flex-row gap-2 max-w-2xl" aria-label="Ask LumiBot a question">
-            <label for="bot-chat-input" class="sr-only">Ask LumiBot a question</label>
-            <input id="bot-chat-input" type="text" maxlength="180" autocomplete="off" placeholder="Ask about Ream's projects, skills, or journey…" class="min-w-0 flex-1 rounded-xl bg-[#0a0b0e]/80 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/10">
-            <button type="submit" class="rounded-xl px-5 py-3 bg-amber-400 text-[#15100a] text-sm font-bold hover:bg-amber-300 transition-colors">Ask LumiBot <span aria-hidden="true">↗</span></button>
-          </form>
-          <p class="text-[11px] text-slate-500 font-mono">Try asking about Ream's projects or Dijkstra's algorithm.</p>
+          <!-- Quick Action Buttons Below Terminal -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="botSayPreset('greeting')" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/25 text-xs font-mono transition-all">
+                👋 Greet Ream
+              </button>
+              <button onclick="botSayPreset('vision')" class="px-3 py-1.5 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 text-orange-300 border border-orange-500/25 text-xs font-mono transition-all">
+                🚀 CS Vision
+              </button>
+              <button onclick="botSayPreset('fact')" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/25 text-xs font-mono transition-all">
+                💡 Algorithm Fact
+              </button>
+              <button onclick="botSayPreset('laugh')" class="px-3 py-1.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-200 border border-sky-400/25 text-xs font-mono transition-all">
+                😂 Make Laugh
+              </button>
+            </div>
+            <div class="text-[11px] text-slate-500 font-mono">
+              Type <span class="text-amber-400 font-bold">'quiz'</span> for CS trivia
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -1672,40 +1949,193 @@
       }
     });
 
-    // Modern Robot Companion Logic & Dynamic Eye Tracking
+    // Modern Robot Companion Logic & Next-Gen LumiBot-X Neural AI Engine
     const eyeL = document.getElementById('bot-eye-l');
     const eyeR = document.getElementById('bot-eye-r');
     const botWrapper = document.getElementById('robot-wrapper');
     const botSpeechText = document.getElementById('robot-speech-text');
-    const botNavigationLink = document.getElementById('bot-navigation-link');
     const botLaughReaction = document.getElementById('bot-laugh-reaction');
     const botStatus = document.getElementById('bot-status');
     const botSvg = document.getElementById('robot-svg');
     const botChatForm = document.getElementById('bot-chat-form');
     const botChatInput = document.getElementById('bot-chat-input');
+    const botChatHistory = document.getElementById('bot-chat-history');
+    const scoutCommsText = document.getElementById('scout-comms-text');
+    const botVoiceIcon = document.getElementById('bot-voice-icon');
+    const botVoiceToggleBtn = document.getElementById('bot-voice-toggle-btn');
     const heroSceneBox = document.getElementById('hero-scene-box');
-    const runnerLumiLine = document.getElementById('runner-lumi-line');
-    const runnerByteLine = document.getElementById('runner-byte-line');
-    const runnerDialogue = [
-      ["Systems check: all green!", "Great! Let's get moving."],
-      ["I found a new idea!", "I'm listening. Let's build it."],
-      ["The tests are looking good.", "Then we're ready to ship!"],
-      ["Need a hand with that?", "Always. Teamwork mode on!"]
+
+    let botVoiceEnabled = true;
+    let botOverclocked = false;
+    let visorColorIdx = 0;
+    const visorColors = [
+      { name: 'CYAN', fill: '#38bdf8', stroke: '#0284c7' },
+      { name: 'AMBER', fill: '#fbbf24', stroke: '#d97706' },
+      { name: 'EMERALD', fill: '#34d399', stroke: '#059669' },
+      { name: 'VIOLET', fill: '#a78bfa', stroke: '#7c3aed' }
     ];
-    let runnerDialogueIndex = 0;
-    setInterval(() => {
-      if (!runnerLumiLine || !runnerByteLine) return;
-      runnerDialogueIndex = (runnerDialogueIndex + 1) % runnerDialogue.length;
-      runnerLumiLine.textContent = runnerDialogue[runnerDialogueIndex][0];
-      runnerByteLine.textContent = runnerDialogue[runnerDialogueIndex][1];
-    }, 5000);
+
     let botActivityTimer;
     let botLaughTimer;
     let lastBotMove = Date.now();
+    let isBotTyping = false;
+
+    // Scout Squad Comms Banter
+    const scoutDialogue = [
+      ["LUMI: \"Systems check: all green!\"", "BYTE: \"Great! Let's get moving.\""],
+      ["LUMI: \"Detected high-speed SQL queries!\"", "BYTE: \"Sub-30ms latency verified on NexusCore.\""],
+      ["LUMI: \"Container cluster online?\"", "BYTE: \"AetherGuard Go daemon heartbeat is active.\""],
+      ["LUMI: \"Dijkstra routing optimization active.\"", "BYTE: \"O((V+E) log V) bounds holding steady.\""],
+      ["LUMI: \"Ream's spec is ready for download.\"", "BYTE: \"1-click dispatch calibrated for hiring teams.\""]
+    ];
+    let scoutDialogueIndex = 0;
+    setInterval(() => {
+      if (!scoutCommsText) return;
+      scoutDialogueIndex = (scoutDialogueIndex + 1) % scoutDialogue.length;
+      scoutCommsText.innerHTML = `${scoutDialogue[scoutDialogueIndex][0]} <span class="text-sky-400">↔</span> ${scoutDialogue[scoutDialogueIndex][1]}`;
+    }, 6000);
+
+    function clickScoutBot(who) {
+      if (who === 'lumi') {
+        playBotSound('ping');
+        const lumi = document.getElementById('scout-lumi-bot');
+        if (lumi) {
+          lumi.style.transform = 'scale(1.25) translateY(-8px)';
+          setTimeout(() => lumi.style.transform = '', 350);
+        }
+        if (scoutCommsText) scoutCommsText.innerHTML = `<strong class="text-amber-400">LUMI:</strong> "Scout Lead reporting: Ream's 15+ engineering artifacts are 100% verified!"`;
+      } else {
+        playBotSound('ping');
+        const byte = document.getElementById('scout-byte-bot');
+        if (byte) {
+          byte.style.transform = 'scale(1.25) translateY(-8px)';
+          setTimeout(() => byte.style.transform = '', 350);
+        }
+        if (scoutCommsText) scoutCommsText.innerHTML = '<strong class="text-sky-400">BYTE:</strong> "Cyber Scout reporting: Full telemetry online! Ask LumiBot anything."';
+      }
+    }
+
+    // Audio SFX Synthesizer Helper
+    function playBotSound(type) {
+      if (!audioEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        if (type === 'ping') {
+          playBeep(1320, 'sine', 0.09, 0.04);
+        } else if (type === 'type') {
+          playBeep(1600, 'sine', 0.012, 0.008);
+        } else if (type === 'laugh') {
+          playBeep(880, 'triangle', .08);
+          setTimeout(() => playBeep(1100, 'triangle', .08), 100);
+          setTimeout(() => playBeep(1320, 'triangle', .12), 200);
+        } else if (type === 'overclock') {
+          playBeep(440, 'sawtooth', .1);
+          setTimeout(() => playBeep(660, 'sawtooth', .1), 80);
+          setTimeout(() => playBeep(990, 'sawtooth', .14), 160);
+        } else if (type === 'correct') {
+          playBeep(587.33, 'sine', .08);
+          setTimeout(() => playBeep(739.99, 'sine', .08), 90);
+          setTimeout(() => playBeep(880, 'sine', .14), 180);
+        } else if (type === 'wrong') {
+          playBeep(400, 'sawtooth', .1);
+          setTimeout(() => playBeep(320, 'sawtooth', .18), 110);
+        }
+      } catch (e) {}
+    }
+
+    // Dynamic Equalizer Animation
+    function setEqualizerActive(active) {
+      const bars = [document.getElementById('eq1'), document.getElementById('eq2'), document.getElementById('eq3'), document.getElementById('eq4'), document.getElementById('eq5')];
+      bars.forEach(b => {
+        if (!b) return;
+        if (active) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      if (botWrapper) {
+        if (active) botWrapper.classList.add('bot-speaking');
+        else botWrapper.classList.remove('bot-speaking');
+      }
+    }
+
+    // Native Web Speech Synthesis
+    function speakText(text) {
+      if (!botVoiceEnabled || !('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        // Strip markdown/html tags and emojis for clean speech
+        const clean = text.replace(/<[^>]+>/g, '').replace(/[#*_`~]/g, '').replace(/[\u{1F300}-\u{1F6FF}]/gu, '');
+        const utter = new SpeechSynthesisUtterance(clean);
+        utter.rate = 1.05;
+        utter.pitch = 1.15;
+        utter.onstart = () => setEqualizerActive(true);
+        utter.onend = () => setEqualizerActive(false);
+        utter.onerror = () => setEqualizerActive(false);
+        window.speechSynthesis.speak(utter);
+      } catch (e) {}
+    }
+
+    function toggleBotVoice() {
+      botVoiceEnabled = !botVoiceEnabled;
+      if (botVoiceIcon && botVoiceToggleBtn) {
+        if (botVoiceEnabled) {
+          botVoiceIcon.className = "fa-solid fa-volume-high text-sky-400";
+          botVoiceToggleBtn.innerHTML = '<i class="fa-solid fa-volume-high text-sky-400" id="bot-voice-icon"></i> VOICE: ON';
+          botVoiceToggleBtn.classList.replace('bg-white/5', 'bg-sky-500/15');
+          playBotSound('ping');
+        } else {
+          window.speechSynthesis && window.speechSynthesis.cancel();
+          setEqualizerActive(false);
+          botVoiceIcon.className = "fa-solid fa-volume-xmark text-slate-500";
+          botVoiceToggleBtn.innerHTML = '<i class="fa-solid fa-volume-xmark text-slate-500" id="bot-voice-icon"></i> VOICE: OFF';
+          botVoiceToggleBtn.classList.replace('bg-sky-500/15', 'bg-white/5');
+        }
+      }
+    }
+
+    function triggerAntennaPing() {
+      playBotSound('ping');
+      const beacon = document.getElementById('bot-antenna-beacon');
+      if (beacon) {
+        beacon.setAttribute('fill', '#ffffff');
+        setTimeout(() => beacon.setAttribute('fill', '#f59e0b'), 300);
+      }
+      animateBot('TRANSMITTING PING');
+      if (botSpeechText) botSpeechText.textContent = "Antenna ping transmitted: 0% packet loss across all systems.";
+    }
+
+    function cycleVisorColor() {
+      playBotSound('ping');
+      visorColorIdx = (visorColorIdx + 1) % visorColors.length;
+      const col = visorColors[visorColorIdx];
+      if (eyeL) eyeL.setAttribute('fill', col.fill);
+      if (eyeR) eyeR.setAttribute('fill', col.fill);
+      animateBot(`OPTICS: ${col.name}`);
+      if (botSpeechText) botSpeechText.textContent = `Cyber visor optics recalibrated to ${col.name} spectral band.`;
+    }
+
+    function toggleBotOverclock() {
+      botOverclocked = !botOverclocked;
+      playBotSound('overclock');
+      const ring = document.getElementById('bot-reactor-ring');
+      if (botWrapper) {
+        if (botOverclocked) {
+          botWrapper.classList.add('bot-overclock');
+          if (ring) ring.style.animationDuration = '2s';
+          animateBot('OVERCLOCKED ⚡');
+          if (botSpeechText) botSpeechText.textContent = "⚡ CORE OVERCLOCKED: Computational throughput amplified 300%!";
+        } else {
+          botWrapper.classList.remove('bot-overclock');
+          if (ring) ring.style.animationDuration = '24s';
+          animateBot('NEURAL ONLINE');
+          if (botSpeechText) botSpeechText.textContent = "Quantum core returned to standard operational frequency.";
+        }
+      }
+    }
 
     function animateBot(status = 'NEURAL ACTIVE') {
       if (!botSvg || !botWrapper) return;
-      botStatus.textContent = status;
+      if (botStatus) botStatus.textContent = status;
       botWrapper.classList.add('bot-thinking');
       botSvg.classList.remove('bot-laugh');
       botSvg.classList.remove('bot-react');
@@ -1714,8 +2144,8 @@
       clearTimeout(botActivityTimer);
       botActivityTimer = setTimeout(() => {
         botWrapper.classList.remove('bot-thinking');
-        botStatus.textContent = 'NEURAL ONLINE';
-      }, 1800);
+        if (botStatus) botStatus.textContent = botOverclocked ? 'OVERCLOCKED ⚡' : 'NEURAL ONLINE';
+      }, 1600);
     }
 
     function blinkBot() {
@@ -1735,129 +2165,667 @@
         eyeR.setAttribute('cx', (166 + glanceX).toFixed(2));
         eyeR.setAttribute('cy', (92 + glanceY).toFixed(2));
       }
-    }, 3000);
+    }, 3200);
 
     const botSayings = [
       "Diagnostic check passed: 0 warnings, system latency 8ms.",
       "Ream's priority: Scalable cloud architectures and database engineering.",
-      "Hover over Ream's photo to engage live neural telemetry!",
-      "Try running 'whoami' or 'fortune' in the CLI terminal below.",
-      "Did you know? Dijkstra completed his shortest path algorithm in 20 minutes."
+      "Explore NexusCore ERP: 1,480 ops/sec background reconciliation engine.",
+      "Algorithm check: Dijkstra solves shortest paths in O((V + E) log V).",
+      "Ready to collaborate? Click 'Hire Me' or download Ream's Spec below!"
     ];
     let sayIdx = 0;
 
     function cycleBotQuote() {
       sayIdx = (sayIdx + 1) % botSayings.length;
-      botSpeechText.textContent = botSayings[sayIdx];
+      if (botSpeechText) botSpeechText.textContent = botSayings[sayIdx];
       animateBot('TRANSMITTING');
-      playBeep(1150, 'sine', 0.08);
+      playBotSound('ping');
     }
 
-    function botSay(type) {
+    function botSayPreset(type) {
       if (type === 'laugh') {
         makeBotLaugh();
         return;
       }
-      if (botNavigationLink) botNavigationLink.classList.add('hidden');
-      animateBot(type === 'fact' ? 'COMPUTING' : 'TRANSMITTING');
-      playBeep(1200, 'sawtooth', 0.1);
       if (type === 'greeting') {
-        botSpeechText.textContent = "Ream welcomes you: 'Thanks for stopping by my workspace! Let's build together.'";
+        askBotQuestion("Who is Ream Khorn?");
       } else if (type === 'vision') {
-        botSpeechText.textContent = "Vision: Bridging enterprise software engineering with advanced distributed systems research.";
+        askBotQuestion("What is Ream's CS Vision and roadmap?");
       } else if (type === 'fact') {
-        botSpeechText.textContent = "Algorithm Fact: Hash tables ensure amortized O(1) query complexity under proper load factors.";
+        askBotQuestion("Tell me an advanced algorithm fact");
       }
     }
 
     function makeBotLaugh() {
-      if (botNavigationLink) botNavigationLink.classList.add('hidden');
-      botSpeechText.textContent = "😂 Ha! Why did the robot go on vacation? It needed to recharge! 🤖";
+      const jokes = [
+        "Why do programmers prefer dark mode? Because light attracts bugs! 🐛😂",
+        "There are 10 types of people in the world: those who understand binary, and those who don't! 🤖",
+        "A SQL query walks into a bar, walks up to two tables and asks: 'Can I join you?' 🍺",
+        "Why did the developer go broke? Because they used up all their cache! 💰",
+        "How do you comfort a JavaScript bug? You console it! 💻"
+      ];
+      const joke = jokes[Math.floor(Math.random() * jokes.length)];
+      if (botSpeechText) botSpeechText.textContent = joke;
       animateBot('LAUGHING');
       botSvg.classList.remove('bot-laugh');
-      botLaughReaction.classList.remove('bot-laugh-pop');
+      if (botLaughReaction) botLaughReaction.classList.remove('bot-laugh-pop');
       void botSvg.getBoundingClientRect();
       botSvg.classList.add('bot-laugh');
-      botLaughReaction.classList.add('bot-laugh-pop');
+      if (botLaughReaction) botLaughReaction.classList.add('bot-laugh-pop');
       clearTimeout(botLaughTimer);
       botLaughTimer = setTimeout(() => {
         botSvg.classList.remove('bot-laugh');
-        botLaughReaction.classList.remove('bot-laugh-pop');
+        if (botLaughReaction) botLaughReaction.classList.remove('bot-laugh-pop');
       }, 1700);
-      playBeep(880, 'triangle', .09);
-      setTimeout(() => playBeep(1040, 'triangle', .09), 110);
-      setTimeout(() => playBeep(760, 'triangle', .13), 220);
+      playBotSound('laugh');
+      renderBotMessage({
+        text: `😂 <strong>Haha! Here is a dev joke for you:</strong><br><br><em>"${joke}"</em>`,
+        actions: [{ label: '💡 Another Joke', action: 'joke' }, { label: '🎮 Play CS Quiz', action: 'quiz' }]
+      });
     }
 
-    function botRespond(question) {
-      const q = question.toLowerCase();
-      if (/\b(laugh|joke|funny)\b/.test(q)) {
-        makeBotLaugh();
-        return;
+    // =========================================================================
+    // COMPREHENSIVE LUMIBOT KNOWLEDGE & INTELLIGENCE ENGINE (LumiBotBrain)
+    // =========================================================================
+    const csQuizQuestions = [
+      {
+        q: "What is the time complexity of Dijkstra's algorithm using a Min-Priority Queue (Binary Heap)?",
+        options: ["O(V^2)", "O((V + E) log V)", "O(V * E)", "O(log V)"],
+        answer: 1,
+        explanation: "Using a binary min-heap, extracting min takes O(log V) across V vertices and decrease-key takes O(log V) across E edges, giving O((V + E) log V)."
+      },
+      {
+        q: "Which data structure operates on a Last-In, First-Out (LIFO) order?",
+        options: ["Queue", "Priority Queue", "Stack", "Binary Search Tree"],
+        answer: 2,
+        explanation: "A Stack strictly uses LIFO (Last-In, First-Out), making it fundamental for function call stacks, undo buffers, and DFS."
+      },
+      {
+        q: "What is the average lookup and insertion complexity of a well-balanced Hash Table?",
+        options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+        answer: 0,
+        explanation: "Under a proper uniform hash function and appropriate load factor, Hash Tables achieve amortized O(1) time complexity."
+      },
+      {
+        q: "In relational database design, what does the 'I' in ACID stand for?",
+        options: ["Indexing", "Isolation", "Inheritance", "Iteration"],
+        answer: 1,
+        explanation: "ACID stands for Atomicity, Consistency, Isolation, and Durability, ensuring reliable transactional database processing."
+      },
+      {
+        q: "Which graph traversal algorithm explores vertex neighbors level by level using a FIFO Queue?",
+        options: ["Depth-First Search (DFS)", "Breadth-First Search (BFS)", "Bellman-Ford", "Floyd-Warshall"],
+        answer: 1,
+        explanation: "BFS (Breadth-First Search) utilizes a FIFO queue to systematically explore nodes in order of their distance from the source."
+      },
+      {
+        q: "What is the worst-case time complexity of standard QuickSort?",
+        options: ["O(n)", "O(n log n)", "O(n^2)", "O(2^n)"],
+        answer: 2,
+        explanation: "When partitions are unbalanced (such as already-sorted data with poor pivot selection), QuickSort degrades to O(n^2)."
+      },
+      {
+        q: "In A* Search, what formula computes the total estimated cost f(n)?",
+        options: ["f(n) = g(n) + h(n)", "f(n) = g(n) * h(n)", "f(n) = log(g(n))", "f(n) = max(g(n), h(n))"],
+        answer: 0,
+        explanation: "f(n) = g(n) + h(n), where g(n) is the exact path cost from start to node n, and h(n) is the admissible heuristic estimate to the goal."
       }
-      let answer;
-      let destination = '';
-      if (/\b(hi|hello|hey|greet)\b/.test(q)) {
-        answer = "👋 Greetings! I'm LumiBot-X. How can I assist you with Ream's projects or skills?";
-      } else if (/\b(project|built|portfolio|work|app)\b/.test(q)) {
-        answer = "🛠️ Featured projects: NexusCore ERP, AetherGuard Cloud Monitor, and SynapseGraph Path Optimizer.";
-        destination = '#projects';
-      } else if (/\b(skill|technolog|stack|python|typescript|sql)\b/.test(q)) {
-        answer = "💻 Ream's core toolkit: TypeScript, React, Vue, Laravel, Python, SQL Server, Docker, and Linux.";
-        destination = '#skills';
-      } else if (/\b(journey|roadmap|study|education)\b/.test(q)) {
-        answer = "🚀 Ream's path spans 4 stages: IT Infrastructure, Full-Stack SE, Cloud Systems, and Computer Science.";
-        destination = '#journey';
-      } else if (/\b(dijkstra|algorithm|complexity)\b/.test(q)) {
-        answer = "🧠 Dijkstra solves shortest paths using priority queues with O((V + E) log V) complexity.";
-        destination = '#projects';
-      } else if (/\b(contact|email|hire)\b/.test(q)) {
-        answer = "📨 You can dispatch a message via the form below or email ream.khorn.se@example.com.";
-        destination = '#contact';
-      } else if (/\b(about|professional|experience|who is ream)\b/.test(q)) {
-        answer = "Ream is a software engineering practitioner in Cambodia focused on scalable software, cloud systems, and computer science.";
-        destination = '#about';
-      } else {
-        answer = "Query logged. Ask about Ream's projects, technical skills, roadmap, or CS concepts.";
-      }
-      botSpeechText.textContent = answer;
-      if (botNavigationLink) {
-        if (destination) {
-          botNavigationLink.href = destination;
-          botNavigationLink.textContent = `Explore ${destination.slice(1)} section →`;
-          botNavigationLink.classList.remove('hidden');
-        } else {
-          botNavigationLink.classList.add('hidden');
+    ];
+
+    let quizState = { active: false, currentIdx: 0, score: 0 };
+
+    const LumiBotBrain = {
+      evaluate(rawQuestion) {
+        const q = rawQuestion.trim().toLowerCase();
+
+        // 1. Quiz Handling
+        if (quizState.active) {
+          const matchChoice = q.match(/^[abcd]$/) || q.match(/option\s*([1-4]|a|b|c|d)/);
+          if (matchChoice) {
+            const letter = matchChoice[0].replace('option', '').trim();
+            const choiceIdx = {'a':0, 'b':1, 'c':2, 'd':3, '1':0, '2':1, '3':2, '4':3}[letter];
+            return this.handleQuizAnswer(choiceIdx);
+          }
         }
+
+        if (/(quiz|game|trivia|challenge|test me)/.test(q)) {
+          return this.startQuiz();
+        }
+
+        // 2. Jokes
+        if (/(joke|funny|laugh|humor)/.test(q)) {
+          makeBotLaugh();
+          return null; // Handled by makeBotLaugh
+        }
+
+        // 3. Greetings
+        if (/(hi|hello|hey|suosdey|sue sdei|choum reap sour|halo|greetings|yo)/.test(q)) {
+          return {
+            text: `👋 <strong>Suosdey! Hello there!</strong> I'm LumiBot-X, Ream's computational co-pilot. I can brief you on Ream's engineering achievements, walk through technical specs, or solve computer science problems. What would you like to explore?`,
+            actions: [
+              { label: '🚀 View Projects', action: 'projects' },
+              { label: '💻 Tech Stack', action: 'skills' },
+              { label: '⚡ Why Hire Ream?', action: 'why_hire' }
+            ],
+            stageText: "Welcome! Systems ready to assist with Ream's portfolio and architecture."
+          };
+        }
+
+        // 4. Who is Ream / Bio / Experience
+        if (/(who is ream|about ream|experience|background|bio|profile|who are you)/.test(q)) {
+          return {
+            text: `👨‍💻 <strong>Ream Khorn</strong> is a dedicated Software Engineering practitioner based in Phnom Penh, Cambodia, with <strong>3+ years of experience</strong> and <strong>15+ delivered projects</strong>.<br><br>
+He specializes in scalable full-stack applications, relational schema engineering (SQL Server/PostgreSQL), containerized deployments (Docker), and is actively pursuing advanced research in distributed systems and core Computer Science theory.`,
+            actions: [
+              { label: '📖 Explore About Section', action: 'nav:#about' },
+              { label: '📄 Download Resume Spec', action: 'resume' },
+              { label: '📨 Contact Ream', action: 'nav:#contact' }
+            ],
+            stageText: "Ream Khorn: Software Engineer & Aspiring Computer Scientist in Phnom Penh."
+          };
+        }
+
+        // 5. Skills & Tech Stack
+        if (/(skill|skills|stack|tech stack|technolog|languages|tools|react|vue|laravel|python|node|sql|docker)/.test(q)) {
+          return {
+            text: `💻 <strong>Ream's Technical Arsenal:</strong><br><br>
+• <strong>Frontend:</strong> React.js, Vue.js (Vue 3 Composition API), TypeScript, JavaScript (ESNext), Tailwind CSS.<br>
+• <strong>Backend:</strong> PHP 8.x (Laravel, Eloquent, Queues), Python (FastAPI, NumPy), Node.js (Express).<br>
+• <strong>Databases:</strong> SQL Server (T-SQL, Index Tuning), PostgreSQL, MySQL, Redis (Caching & Pub/Sub).<br>
+• <strong>Cloud & Systems:</strong> Docker containerization, Linux (Ubuntu/Debian server admin), VMware ESXi, CI/CD pipelines.`,
+            actions: [
+              { label: '⚡ View Skills Matrix', action: 'nav:#skills' },
+              { label: '🚀 See Projects in Action', action: 'projects' }
+            ],
+            stageText: "Core stack: React, Vue 3, TypeScript, Laravel, Python, SQL Server, Docker, Linux."
+          };
+        }
+
+        // 6. Flagship Projects (NexusCore, AetherGuard, SynapseGraph)
+        if (/(nexuscore|nexus|erp|banking)/.test(q)) {
+          return {
+            text: `🏛️ <strong>NexusCore ERP & Banking Portal:</strong><br><br>
+An enterprise resource management engine supporting concurrent financial operations, dual-token JWT RBAC security, sub-30ms reactive dashboards, and background reconciliation workers processing <strong>1,480 ops/sec</strong>.<br>
+• <em>Stack:</em> Vue 3 + Laravel + SQL Server.`,
+            actions: [
+              { label: '🔍 Open NexusCore Spec', action: 'modal:nexus' },
+              { label: '🌐 View All Projects', action: 'nav:#projects' }
+            ],
+            stageText: "NexusCore ERP: High-concurrency financial portal with 1,480 ops/sec audit pipeline."
+          };
+        }
+
+        if (/(aetherguard|aether|monitor|node monitor|docker monitor)/.test(q)) {
+          return {
+            text: `🛡️ <strong>AetherGuard Cloud Node Monitor:</strong><br><br>
+Hybrid container and VM orchestrator monitoring distributed virtual clusters across VMware. Features automated threshold failover, Prometheus metrics aggregation, and a lightweight memory footprint under <strong>28MB</strong>.<br>
+• <em>Stack:</em> Go + Docker + Prometheus.`,
+            actions: [
+              { label: '🔍 Open AetherGuard Spec', action: 'modal:aether' },
+              { label: '🌐 View All Projects', action: 'nav:#projects' }
+            ],
+            stageText: "AetherGuard: Lightweight Go telemetry ping daemon with automated failover."
+          };
+        }
+
+        if (/(synapsegraph|synapse|path optimizer|graph)/.test(q)) {
+          return {
+            text: `🧠 <strong>SynapseGraph Path Optimizer:</strong><br><br>
+Comparative computational solver analyzing Dijkstra, A*, and heuristic graph models for shortest-path routing across <strong>14,000+ vertex networks</strong> with NumPy matrix acceleration and WebGL wave visualizer.<br>
+• <em>Stack:</em> Python (NumPy) + TypeScript.`,
+            actions: [
+              { label: '🔍 Open SynapseGraph Spec', action: 'modal:synapse' },
+              { label: '🧠 Explain Dijkstra Algorithm', action: 'dijkstra' }
+            ],
+            stageText: "SynapseGraph: 14,000+ vertex graph routing optimizer running at O((V+E) log V)."
+          };
+        }
+
+        if (/(project|projects|portfolio|built|work|showcase)/.test(q)) {
+          return {
+            text: `🛠️ <strong>Ream's Featured Engineering Projects:</strong><br><br>
+1. <strong>NexusCore ERP</strong>: Enterprise financial portal with Vue 3 & Laravel.<br>
+2. <strong>AetherGuard</strong>: Real-time cloud node telemetry daemon in Go & Docker.<br>
+3. <strong>SynapseGraph</strong>: 14,000+ vertex algorithmic path optimizer.<br><br>
+You can inspect deep architectural specs for each project directly:`,
+            actions: [
+              { label: '🚀 NexusCore Spec', action: 'modal:nexus' },
+              { label: '🛡️ AetherGuard Spec', action: 'modal:aether' },
+              { label: '🧠 SynapseGraph Spec', action: 'modal:synapse' },
+              { label: '🌐 Jump to Projects Section', action: 'nav:#projects' }
+            ],
+            stageText: "Featured systems: NexusCore ERP, AetherGuard Monitor, SynapseGraph Optimizer."
+          };
+        }
+
+        // 7. Services & Offerings
+        if (/(service|services|offer|what can you do for me|consulting|freelance)/.test(q)) {
+          return {
+            text: `💼 <strong>Engineering Services Provided by Ream:</strong><br><br>
+• <strong>Full-Stack Web Applications:</strong> High-performance SPA & SSR web apps using React, Vue, and Laravel.<br>
+• <strong>RESTful APIs & Microservices:</strong> Scalable, well-documented API architectures with JWT/OAuth.<br>
+• <strong>Database Optimization:</strong> Schema normalization, query profiling, and index strategies for SQL Server & PostgreSQL.<br>
+• <strong>Systems & Linux Administration:</strong> Dockerization, CI/CD pipelines, and secure server environments.`,
+            actions: [
+              { label: '🛠️ View Services Section', action: 'nav:#services' },
+              { label: '📨 Inquire About a Project', action: 'nav:#contact' }
+            ],
+            stageText: "Services: Full-stack software engineering, scalable APIs, and database architecture."
+          };
+        }
+
+        // 8. Why Hire Ream / Rates / Availability
+        if (/(hire|why hire|available|availability|job|opportunity|cost|price|budget|rates)/.test(q)) {
+          return {
+            text: `🎯 <strong>Why Hire Ream Khorn?</strong><br><br>
+• <strong>Engineering Rigor:</strong> Strong foundation in both practical application delivery and theoretical computer science.<br>
+• <strong>Proven Track Record:</strong> 3+ years experience, 15+ delivered enterprise applications, 100% dedication rate.<br>
+• <strong>Availability:</strong> Currently <strong>OPEN</strong> for full-time Software Engineering roles, contract work, and CS research collaboration.<br>
+• <strong>Flexible Engagement:</strong> Standard packages ($1k - $3k), Enterprise ($3k - $10k+), or customized contract scopes.`,
+            actions: [
+              { label: '📨 Send Message / Hire Ream', action: 'nav:#contact' },
+              { label: '📄 Download Verified Spec', action: 'resume' }
+            ],
+            stageText: "Status: Open for Software Engineering roles and technical collaboration!"
+          };
+        }
+
+        // 9. Contact / Email / Location
+        if (/(contact|email|location|reach|where is ream|cambodia|phnom penh)/.test(q)) {
+          return {
+            text: `📍 <strong>Contact Information:</strong><br><br>
+• <strong>Location:</strong> Phnom Penh, Cambodia (Open to remote worldwide & local roles)<br>
+• <strong>Direct Email:</strong> <a href="mailto:ream.khorn.se@example.com" class="text-amber-400 underline">ream.khorn.se@example.com</a><br>
+• <strong>Availability:</strong> Immediate response within 24 hours via the dispatch terminal below.`,
+            actions: [
+              { label: '📨 Open Contact Form', action: 'nav:#contact' },
+              { label: '💻 Open Interactive Shell', action: 'nav:#terminal-section' }
+            ],
+            stageText: "Location: Phnom Penh, Cambodia. Direct inquiries open."
+          };
+        }
+
+        // 10. Resume / Spec Download
+        if (/(resume|cv|spec|download|download resume)/.test(q)) {
+          return {
+            text: `📄 <strong>Ream's Technical Specification & Resume:</strong><br><br>
+You can download Ream's verified resume and architectural spec file containing technical competencies, credentials, and project metrics with one click below.`,
+            actions: [
+              { label: '📄 Download Spec File Now', action: 'resume' },
+              { label: '👤 Open Photo Preview', action: 'photo' }
+            ],
+            stageText: "Technical specification and resume file ready for transmission."
+          };
+        }
+
+        // 11. CS Journey / Roadmap
+        if (/(journey|roadmap|education|study|phases|stages|learning)/.test(q)) {
+          return {
+            text: `🚀 <strong>Ream's 4-Stage Computer Science Roadmap:</strong><br><br>
+1. <strong>Stage 01: IT Infrastructure & Systems</strong> (Hardware, networking, operating system kernels)<br>
+2. <strong>Stage 02: Full-Stack Software Engineering</strong> (Reactive frontends, robust relational backends)<br>
+3. <strong>Stage 03: Scalable Cloud & Distributed Systems</strong> (Docker, microservices, container clustering)<br>
+4. <strong>Stage 04: Computational Theory & Computer Science</strong> (Graph theory, algorithmic bounds, distributed consensus)`,
+            actions: [
+              { label: '🗺️ Explore Roadmap Section', action: 'nav:#journey' }
+            ],
+            stageText: "CS Roadmap: IT Infrastructure → Full-Stack SE → Cloud Systems → Computer Scientist."
+          };
+        }
+
+        // 12. Computer Science Tutoring (Dijkstra, A*, Big-O, Hash Tables, Trees)
+        if (/(dijkstra|shortest path)/.test(q)) {
+          return {
+            text: `🧠 <strong>Dijkstra's Algorithm (Core CS Theory):</strong><br><br>
+• <strong>Category:</strong> Greedy Single-Source Shortest Path algorithm for graphs with non-negative edge weights.<br>
+• <strong>Mechanism:</strong> Continuously relaxes neighboring vertices by maintaining a Min-Priority Queue of tentative distances.<br>
+• <strong>Time Complexity:</strong> <code>O((V + E) log V)</code> when implemented with a standard binary heap.<br>
+• <em>Fun Fact:</em> Edsger W. Dijkstra conceived the algorithm in 1956 in approximately 20 minutes while having coffee with his fiancée!`,
+            actions: [
+              { label: '🚀 See SynapseGraph Project', action: 'modal:synapse' },
+              { label: '🎮 Quiz me on Dijkstra', action: 'quiz' }
+            ],
+            stageText: "Dijkstra: Greedy shortest-path solver operating in O((V + E) log V)."
+          };
+        }
+
+        if (/(big o|complexity|time complexity|space complexity|asymptotic)/.test(q)) {
+          return {
+            text: `📊 <strong>Big-O Notation & Asymptotic Complexity:</strong><br><br>
+Big-O characterizes the upper-bound growth rate of an algorithm's execution time or memory footprint as input size <code>n</code> scales to infinity:<br><br>
+• <code>O(1)</code>: Constant time (e.g. Hash table lookup)<br>
+• <code>O(log n)</code>: Logarithmic time (e.g. Binary Search)<br>
+• <code>O(n)</code>: Linear time (e.g. Array traversal)<br>
+• <code>O(n log n)</code>: Linearithmic time (e.g. MergeSort, QuickSort avg)<br>
+• <code>O(n^2)</code>: Quadratic time (e.g. BubbleSort, nested loops)`,
+            actions: [
+              { label: '🎮 Test Big-O Knowledge (Quiz)', action: 'quiz' }
+            ],
+            stageText: "Big-O: Mathematical notation describing the upper bound of resource scaling."
+          };
+        }
+
+        if (/(hash table|hash map|hashmap|hash)/.test(q)) {
+          return {
+            text: `🔑 <strong>Hash Table Architecture:</strong><br><br>
+A Hash Table maps keys to values by transforming each key into an integer array index via a hash function.<br>
+• <strong>Average Complexity:</strong> Amortized <code>O(1)</code> for search, insert, and delete.<br>
+• <strong>Collision Resolution:</strong> Handled through Separate Chaining (linked lists/red-black trees) or Open Addressing (linear/quadratic probing).<br>
+• <strong>Load Factor:</strong> Ratio of entries to table buckets (typically resized when load exceeds 0.75).`,
+            actions: [
+              { label: '💡 Another Algorithm Fact', action: 'fact' }
+            ],
+            stageText: "Hash Tables: Amortized O(1) associative arrays utilizing hash buckets."
+          };
+        }
+
+        // 13. Terminal / CLI Help
+        if (/(terminal|shell|cli|command|bash|zsh)/.test(q)) {
+          return {
+            text: `💻 <strong>Ream's Interactive Cloud Terminal:</strong><br><br>
+You can execute Unix-like commands in the interactive shell at the bottom of the page! Try running:<br>
+• <code>help</code> - List all commands<br>
+• <code>neofetch</code> - Display kernel telemetry<br>
+• <code>whoami</code> - Identify active observer<br>
+• <code>cat projects.txt</code> - Print project details<br>
+• <code>fortune</code> - Read computer science aphorisms`,
+            actions: [
+              { label: '💻 Jump to Terminal', action: 'nav:#terminal-section' }
+            ],
+            stageText: "Shell commands ready: try 'neofetch', 'whoami', 'help' in the terminal."
+          };
+        }
+
+        // 14. Fallback Intelligent Matcher
+        return {
+          text: `⚡ <strong>Telemetry Logged:</strong> I analyzed your query regarding <em>"${rawQuestion}"</em>.<br><br>
+While my neural weights are primarily tuned to Ream's software architecture, projects, skills, and computer science concepts, I can help you inspect any part of his portfolio or test your algorithm skills!`,
+          actions: [
+            { label: '👤 Who is Ream?', action: 'who_is_ream' },
+            { label: '🚀 Explore Projects', action: 'projects' },
+            { label: '💻 Core Tech Stack', action: 'skills' },
+            { label: '🎮 Play CS Quiz', action: 'quiz' }
+          ],
+          stageText: "Query processed. Choose a suggested topic or ask another question."
+        };
+      },
+
+      startQuiz() {
+        quizState = { active: true, currentIdx: 0, score: 0 };
+        return this.renderQuizQuestion();
+      },
+
+      renderQuizQuestion() {
+        const item = csQuizQuestions[quizState.currentIdx];
+        const qNum = quizState.currentIdx + 1;
+        const total = csQuizQuestions.length;
+        return {
+          text: `🎮 <strong>Computer Science Quiz [Question ${qNum}/${total}]:</strong><br><br>
+<strong>${item.q}</strong><br><br>
+Click an answer or type A, B, C, or D:`,
+          actions: [
+            { label: `A) ${item.options[0]}`, action: `quiz_ans:0` },
+            { label: `B) ${item.options[1]}`, action: `quiz_ans:1` },
+            { label: `C) ${item.options[2]}`, action: `quiz_ans:2` },
+            { label: `D) ${item.options[3]}`, action: `quiz_ans:3` }
+          ],
+          stageText: `Quiz Question ${qNum}/${total} active. Select your answer!`
+        };
+      },
+
+      handleQuizAnswer(choiceIdx) {
+        const item = csQuizQuestions[quizState.currentIdx];
+        const isCorrect = choiceIdx === item.answer;
+        if (isCorrect) {
+          quizState.score++;
+          playBotSound('correct');
+        } else {
+          playBotSound('wrong');
+        }
+
+        const chosenText = item.options[choiceIdx] || 'None';
+        const correctText = item.options[item.answer];
+        const isLast = quizState.currentIdx + 1 >= csQuizQuestions.length;
+
+        let resultText = isCorrect 
+          ? `🎉 <strong class="text-emerald-400">Correct!</strong> You chose: <code>${chosenText}</code>.<br><br>${item.explanation}`
+          : `❌ <strong class="text-rose-400">Incorrect!</strong> You chose <code>${chosenText}</code>, but the correct answer is: <code>${correctText}</code>.<br><br>${item.explanation}`;
+
+        const actions = [];
+        if (!isLast) {
+          quizState.currentIdx++;
+          actions.push({ label: `➡️ Next Question (${quizState.currentIdx + 1}/${csQuizQuestions.length})`, action: 'quiz_next' });
+          actions.push({ label: '🏁 End Quiz', action: 'quiz_end' });
+        } else {
+          quizState.active = false;
+          resultText += `<br><br>🏆 <strong>Quiz Complete!</strong> Final Score: <strong>${quizState.score}/${csQuizQuestions.length}</strong> (${Math.round(quizState.score / csQuizQuestions.length * 100)}%)!`;
+          actions.push({ label: '🔄 Play Again', action: 'quiz' });
+          actions.push({ label: '🚀 Explore Projects', action: 'projects' });
+        }
+
+        return {
+          text: resultText,
+          actions: actions,
+          stageText: isCorrect ? `Correct! Score: ${quizState.score}` : `Incorrect! Score: ${quizState.score}`
+        };
       }
+    };
+
+    // Chat UI Renderer
+    function appendUserMessage(text) {
+      if (!botChatHistory) return;
+      const bubble = document.createElement('div');
+      bubble.className = 'bot-msg-bubble flex items-start justify-end gap-2.5 text-right';
+      bubble.innerHTML = `
+        <div class="max-w-[85%] bg-amber-500/15 border border-amber-500/30 rounded-2xl p-3 text-amber-100 space-y-1">
+          <div class="text-[9px] text-amber-400/80 font-mono">You [Guest Observer]</div>
+          <div class="leading-relaxed font-mono">${escapeHtml(text)}</div>
+        </div>
+        <div class="w-7 h-7 rounded-lg bg-amber-500/30 border border-amber-400/50 flex items-center justify-center shrink-0 text-amber-300 mt-0.5">
+          <i class="fa-solid fa-user text-xs"></i>
+        </div>
+      `;
+      botChatHistory.appendChild(bubble);
+      botChatHistory.scrollTop = botChatHistory.scrollHeight;
+    }
+
+    function renderBotMessage(res) {
+      if (!botChatHistory || !res) return;
       animateBot('COMPUTING');
-      playBeep(1200, 'sawtooth', 0.1);
+      if (res.stageText && botSpeechText) botSpeechText.textContent = res.stageText;
+
+      const container = document.createElement('div');
+      container.className = 'bot-msg-bubble flex items-start gap-2.5';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400 mt-0.5';
+      avatar.innerHTML = '<i class="fa-solid fa-robot text-xs"></i>';
+
+      const contentBox = document.createElement('div');
+      contentBox.className = 'flex-1 bg-[#101420] border border-amber-500/20 rounded-2xl p-3.5 space-y-2 text-slate-200';
+
+      const header = document.createElement('div');
+      header.className = 'flex items-center justify-between text-[10px] text-slate-400 border-b border-white/5 pb-1';
+      header.innerHTML = '<span class="font-bold text-amber-300">LumiBot-X [AI Companion]</span><span class="text-emerald-400">● Verified</span>';
+
+      const textEl = document.createElement('div');
+      textEl.className = 'leading-relaxed font-mono text-xs';
+
+      contentBox.appendChild(header);
+      contentBox.appendChild(textEl);
+      container.appendChild(avatar);
+      container.appendChild(contentBox);
+      botChatHistory.appendChild(container);
+      botChatHistory.scrollTop = botChatHistory.scrollHeight;
+
+      // Typewriter Effect
+      isBotTyping = true;
+      setEqualizerActive(true);
+      speakText(res.text);
+
+      // Parse text without breaking HTML tags during typing
+      const rawHtml = res.text;
+      let charIndex = 0;
+      textEl.innerHTML = '';
+
+      const typingTimer = setInterval(() => {
+        charIndex += 4;
+        if (charIndex >= rawHtml.length) {
+          textEl.innerHTML = rawHtml;
+          clearInterval(typingTimer);
+          isBotTyping = false;
+          if (!botVoiceEnabled) setEqualizerActive(false);
+
+          // Append action buttons after typing
+          if (res.actions && res.actions.length > 0) {
+            const actionsBar = document.createElement('div');
+            actionsBar.className = 'flex flex-wrap gap-1.5 pt-2 border-t border-white/5';
+            res.actions.forEach(act => {
+              const btn = document.createElement('button');
+              btn.className = 'px-2.5 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-mono transition-all active:scale-95';
+              btn.textContent = act.label;
+              btn.onclick = () => botExecuteAction(act.action);
+              actionsBar.appendChild(btn);
+            });
+            contentBox.appendChild(actionsBar);
+          }
+
+          botChatHistory.scrollTop = botChatHistory.scrollHeight;
+        } else {
+          // Soft click SFX during typing
+          if (charIndex % 16 === 0) playBotSound('type');
+          textEl.innerHTML = rawHtml.substring(0, charIndex) + '<span class="inline-block w-1.5 h-3 bg-amber-400 animate-pulse ml-0.5"></span>';
+          botChatHistory.scrollTop = botChatHistory.scrollHeight;
+        }
+      }, 16);
+    }
+
+    function askBotQuestion(question) {
+      if (!question || isBotTyping) return;
+      appendUserMessage(question);
+      setTimeout(() => {
+        const response = LumiBotBrain.evaluate(question);
+        if (response) renderBotMessage(response);
+      }, 200);
+    }
+
+    function askBotPreset(type) {
+      const map = {
+        'who_is_ream': "Who is Ream Khorn?",
+        'skills': "What is your core tech stack and proficiencies?",
+        'projects': "What are Ream's featured projects?",
+        'nexuscore': "Tell me about the NexusCore ERP project",
+        'why_hire': "Why should our team hire Ream?",
+        'dijkstra': "Explain Dijkstra's algorithm and its complexity",
+        'big_o': "Explain Big-O complexity notation",
+        'quiz': "Start a Computer Science Quiz",
+        'joke': "Tell me a programming joke",
+        'resume': "How can I download Ream's resume spec?"
+      };
+      if (map[type]) askBotQuestion(map[type]);
+    }
+
+    function botExecuteAction(action) {
+      if (action.startsWith('nav:')) {
+        const target = action.replace('nav:', '');
+        const el = document.querySelector(target);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          el.classList.add('ring-2', 'ring-amber-400/50');
+          setTimeout(() => el.classList.remove('ring-2', 'ring-amber-400/50'), 2000);
+        }
+      } else if (action.startsWith('modal:')) {
+        const key = action.replace('modal:', '');
+        openProjectModal(key);
+      } else if (action === 'resume') {
+        downloadResume();
+      } else if (action === 'photo') {
+        openLightbox('portrait');
+      } else if (action === 'quiz') {
+        askBotQuestion('quiz');
+      } else if (action.startsWith('quiz_ans:')) {
+        const idx = parseInt(action.replace('quiz_ans:', ''), 10);
+        const res = LumiBotBrain.handleQuizAnswer(idx);
+        renderBotMessage(res);
+      } else if (action === 'quiz_next') {
+        const res = LumiBotBrain.renderQuizQuestion();
+        renderBotMessage(res);
+      } else if (action === 'quiz_end') {
+        quizState.active = false;
+        renderBotMessage({
+          text: `Quiz closed! What would you like to explore next?`,
+          actions: [{ label: '🚀 View Projects', action: 'projects' }, { label: '💻 Tech Stack', action: 'skills' }]
+        });
+      } else if (action === 'joke') {
+        makeBotLaugh();
+      } else {
+        askBotPreset(action);
+      }
+    }
+
+    function clearBotChat() {
+      if (!botChatHistory) return;
+      playBotSound('ping');
+      botChatHistory.innerHTML = `
+        <div class="bot-msg-bubble flex items-start gap-2.5">
+          <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400 mt-0.5">
+            <i class="fa-solid fa-robot text-xs"></i>
+          </div>
+          <div class="flex-1 bg-[#101420] border border-amber-500/20 rounded-2xl p-3.5 space-y-2 text-slate-200">
+            <div class="flex items-center justify-between text-[10px] text-slate-400 border-b border-white/5 pb-1">
+              <span class="font-bold text-amber-300">LumiBot-X [AI Companion]</span>
+              <span>Buffer Reset</span>
+            </div>
+            <p class="leading-relaxed">
+              Buffer purged. Ready for new queries! What can I calculate or navigate for you?
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
     }
 
     if (botChatForm && botChatInput) {
-      botChatForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const question = botChatInput.value.trim();
-        if (!question) {
-          botChatInput.focus();
-          return;
-        }
-        botRespond(question);
+      botChatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = botChatInput.value.trim();
+        if (!q) return;
+        askBotQuestion(q);
         botChatInput.value = '';
       });
     }
 
-    // Cursor tracking for bot optics & interactive 3D hero card parallax
-    window.addEventListener('mousemove', (e) => {
+    // High-Performance RAF-Throttled Pointer & Touch Tracking (60/120 FPS Fluidity)
+    let pointerTicking = false;
+    let curPointerX = 0, curPointerY = 0;
+    let cachedBotRect = null, cachedHeroRect = null;
+
+    function refreshTrackingRects() {
+      if (botWrapper) cachedBotRect = botWrapper.getBoundingClientRect();
+      if (heroSceneBox) cachedHeroRect = heroSceneBox.getBoundingClientRect();
+    }
+    window.addEventListener('resize', refreshTrackingRects, { passive: true });
+    window.addEventListener('scroll', refreshTrackingRects, { passive: true });
+    setTimeout(refreshTrackingRects, 400);
+
+    function updatePointerPositions() {
+      pointerTicking = false;
       lastBotMove = Date.now();
 
-      // 1. Robot Eye Tracking
+      // 1. Robot Eye Tracking (Zero layout thrashing)
       if (botWrapper && eyeL && eyeR) {
-        const rect = botWrapper.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const angle = Math.atan2(e.clientY - cy, e.clientX - cx);
-        const dist = Math.min(6, Math.hypot(e.clientX - cx, e.clientY - cy) / 60);
+        if (!cachedBotRect) cachedBotRect = botWrapper.getBoundingClientRect();
+        const cx = cachedBotRect.left + cachedBotRect.width / 2;
+        const cy = cachedBotRect.top + cachedBotRect.height / 2;
+        const dx = curPointerX - cx;
+        const dy = curPointerY - cy;
+        const angle = Math.atan2(dy, dx);
+        const dist = Math.min(6, Math.hypot(dx, dy) / 60);
         const ox = Math.cos(angle) * dist;
         const oy = Math.sin(angle) * dist;
 
@@ -1869,14 +2837,40 @@
 
       // 2. Active Image Background Parallax Tracking
       if (heroSceneBox) {
-        const hRect = heroSceneBox.getBoundingClientRect();
-        const hx = (e.clientX - (hRect.left + hRect.width / 2)) / (hRect.width / 2);
-        const hy = (e.clientY - (hRect.top + hRect.height / 2)) / (hRect.height / 2);
+        if (!cachedHeroRect) cachedHeroRect = heroSceneBox.getBoundingClientRect();
+        const hx = (curPointerX - (cachedHeroRect.left + cachedHeroRect.width / 2)) / (cachedHeroRect.width / 2);
+        const hy = (curPointerY - (cachedHeroRect.top + cachedHeroRect.height / 2)) / (cachedHeroRect.height / 2);
         if (Math.abs(hx) < 2 && Math.abs(hy) < 2) {
-          heroSceneBox.style.transform = `rotateY(${hx * 10}deg) rotateX(${-hy * 10}deg)`;
+          heroSceneBox.style.transform = `rotateY(${hx * 8}deg) rotateX(${-hy * 8}deg)`;
         }
       }
-    });
+    }
+
+    function queuePointerUpdate(x, y) {
+      curPointerX = x;
+      curPointerY = y;
+      if (!pointerTicking) {
+        pointerTicking = true;
+        requestAnimationFrame(updatePointerPositions);
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => queuePointerUpdate(e.clientX, e.clientY), { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) queuePointerUpdate(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) queuePointerUpdate(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    // Smooth Mobile Keyboard Handling
+    if (botChatInput) {
+      botChatInput.addEventListener('focus', () => {
+        setTimeout(() => {
+          botChatInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 320);
+      });
+    }
 
     // Interactive Matrix Particle Background
     const canvas = document.getElementById('matrix-canvas');
@@ -1892,21 +2886,30 @@
 
     function initParticles() {
       particles = [];
-      const count = Math.floor((cw * ch) / 24000);
+      // Lightweight particle count (max 28) for ultra-fast, smooth rendering
+      const count = Math.min(28, Math.max(14, Math.floor((cw * ch) / 55000)));
       for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * cw,
           y: Math.random() * ch,
-          vx: (Math.random() - 0.5) * 0.35,
-          vy: (Math.random() - 0.5) * 0.35,
-          r: Math.random() * 1.8 + 0.8
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          r: Math.random() * 1.5 + 0.8
         });
       }
     }
 
-    function animateParticles() {
+    let lastCanvasFrame = 0;
+    function animateParticles(timestamp) {
+      requestAnimationFrame(animateParticles);
+      if (document.hidden) return; // Pause when tab is inactive
+      if (timestamp - lastCanvasFrame < 24) return; // Smooth 40fps throttle
+      lastCanvasFrame = timestamp;
+
       ctx.clearRect(0, 0, cw, ch);
-      for (let i = 0; i < particles.length; i++) {
+      const len = particles.length;
+
+      for (let i = 0; i < len; i++) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
@@ -1916,16 +2919,20 @@
         if (p.y < 0) p.y = ch;
         if (p.y > ch) p.y = 0;
 
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.6)';
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.55)';
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
 
-        for (let j = i + 1; j < particles.length; j++) {
+        // High-efficiency distance check (squared distance avoids Math.hypot overhead)
+        for (let j = i + 1; j < len; j++) {
           const p2 = particles[j];
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 90) {
-            ctx.strokeStyle = `rgba(245, 158, 11, ${0.12 * (1 - dist / 90)})`;
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 6400) { // 80px squared
+            const alpha = 0.12 * (1 - distSq / 6400);
+            ctx.strokeStyle = `rgba(245, 158, 11, ${alpha.toFixed(3)})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
@@ -1934,7 +2941,6 @@
           }
         }
       }
-      requestAnimationFrame(animateParticles);
     }
 
     // CLI Shell
